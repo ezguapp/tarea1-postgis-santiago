@@ -1,0 +1,46 @@
+Sort  (cost=7069165.24..7069165.32 rows=30 width=176) (actual time=518.340..518.344 rows=30 loops=1)
+  Sort Key: (round((((count(p.stop_id))::double precision / NULLIF(c.area_caja_km2, '0'::double precision)))::numeric, 1)) DESC NULLS LAST
+  Sort Method: quicksort  Memory: 28kB
+  Buffers: shared hit=201
+  ->  GroupAggregate  (cost=7069153.15..7069164.51 rows=30 width=176) (actual time=516.695..518.285 rows=30 loops=1)
+        Group Key: c.cut
+        Buffers: shared hit=198
+        ->  Merge Left Join  (cost=7069153.15..7069162.14 rows=204 width=46) (actual time=516.480..517.721 rows=6569 loops=1)
+              Merge Cond: (c.cut = s.cut)
+              Buffers: shared hit=198
+              ->  Sort  (cost=51.04..51.11 rows=30 width=40) (actual time=349.684..349.688 rows=30 loops=1)
+                    Sort Key: c.cut
+                    Sort Method: quicksort  Memory: 27kB
+                    Buffers: shared hit=50
+                    ->  Seq Scan on comunas c  (cost=0.00..50.30 rows=30 width=40) (actual time=349.523..349.634 rows=30 loops=1)
+                          Buffers: shared hit=50
+              ->  Sort  (cost=7069102.11..7069105.51 rows=1359 width=12) (actual time=166.768..167.111 rows=6569 loops=1)
+                    Sort Key: s.cut
+                    Sort Method: quicksort  Memory: 449kB
+                    Buffers: shared hit=148
+                    ->  Unique  (cost=7069024.59..7069031.39 rows=1359 width=12) (actual time=162.898..164.226 rows=6569 loops=1)
+                          Buffers: shared hit=148
+                          ->  Sort  (cost=7069024.59..7069027.99 rows=1359 width=12) (actual time=162.897..163.224 rows=6569 loops=1)
+                                Sort Key: p.stop_id, s.cut
+                                Sort Method: quicksort  Memory: 449kB
+                                Buffers: shared hit=148
+                                ->  Nested Loop  (cost=0.00..7068953.87 rows=1359 width=12) (actual time=0.341..151.597 rows=6569 loops=1)
+                                      Join Filter: st_intersects(s.geom, p.geom)
+                                      Rows Removed by Join Filter: 558365
+                                      Buffers: shared hit=148
+                                      ->  Seq Scan on paraderos_gtfs p  (cost=0.00..186.12 rows=6569 width=38) (actual time=0.013..1.683 rows=6569 loops=1)
+                                            Filter: es_bus
+                                            Rows Removed by Filter: 243
+                                            Buffers: shared hit=118
+                                      ->  Materialize  (cost=0.00..31.29 rows=86 width=2431) (actual time=0.000..0.004 rows=86 loops=6569)
+                                            Buffers: shared hit=30
+                                            ->  Seq Scan on comunas_sub s  (cost=0.00..30.86 rows=86 width=2431) (actual time=0.005..0.060 rows=86 loops=1)
+                                                  Buffers: shared hit=30
+Planning:
+  Buffers: shared hit=359
+Planning Time: 9.534 ms
+JIT:
+  Functions: 23
+  Options: Inlining true, Optimization true, Expressions true, Deforming true
+  Timing: Generation 1.849 ms, Inlining 74.412 ms, Optimization 164.068 ms, Emission 111.008 ms, Total 351.337 ms
+Execution Time: 538.790 ms

@@ -1,0 +1,70 @@
+Nested Loop  (cost=20028.90..114790.46 rows=67 width=116) (actual time=131.239..581.725 rows=117 loops=1)
+  Buffers: shared hit=44600
+  ->  Gather Merge  (cost=18593.27..18601.07 rows=67 width=88) (actual time=125.184..125.487 rows=117 loops=1)
+        Workers Planned: 2
+        Workers Launched: 2
+        Buffers: shared hit=13709
+        ->  Sort  (cost=17593.25..17593.32 rows=28 width=88) (actual time=103.157..103.172 rows=39 loops=3)
+              Sort Key: vt.direction_id, st.stop_sequence
+              Sort Method: quicksort  Memory: 25kB
+              Buffers: shared hit=13709
+              Worker 0:  Sort Method: quicksort  Memory: 25kB
+              Worker 1:  Sort Method: quicksort  Memory: 36kB
+              ->  Hash Join  (cost=1870.39..17592.57 rows=28 width=88) (actual time=87.543..103.058 rows=39 loops=3)
+                    Hash Cond: (st.stop_id = p.stop_id)
+                    Buffers: shared hit=13597
+                    ->  Hash Join  (cost=1599.12..17321.19 rows=42 width=14) (actual time=43.740..74.744 rows=61 loops=3)
+                          Hash Cond: (st.trip_id = vt.trip_id)
+                          Buffers: shared hit=13215
+                          ->  Parallel Seq Scan on stop_times st  (cost=0.00..14005.20 rows=457720 width=24) (actual time=0.009..31.346 rows=366176 loops=3)
+                                Buffers: shared hit=9428
+                          ->  Hash  (cost=1599.09..1599.09 rows=2 width=20) (actual time=3.603..3.613 rows=2 loops=3)
+                                Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                Buffers: shared hit=3787
+                                ->  Subquery Scan on vt  (cost=1598.87..1599.09 rows=2 width=20) (actual time=3.582..3.602 rows=2 loops=3)
+                                      Buffers: shared hit=3787
+                                      ->  Unique  (cost=1598.87..1599.07 rows=2 width=20) (actual time=3.567..3.586 rows=2 loops=3)
+                                            Buffers: shared hit=3787
+                                            ->  Sort  (cost=1598.87..1598.97 rows=41 width=20) (actual time=3.566..3.571 rows=58 loops=3)
+                                                  Sort Key: v.direction_id, v.trip_id
+                                                  Sort Method: quicksort  Memory: 27kB
+                                                  Buffers: shared hit=3787
+                                                  Worker 0:  Sort Method: quicksort  Memory: 27kB
+                                                  Worker 1:  Sort Method: quicksort  Memory: 27kB
+                                                  ->  Hash Join  (cost=1009.63..1597.77 rows=41 width=20) (actual time=1.793..3.429 rows=58 loops=3)
+                                                        Hash Cond: (v.shape_id = r.shape_id)
+                                                        Buffers: shared hit=3768
+                                                        ->  Seq Scan on viajes v  (cost=0.00..587.99 rows=58 width=25) (actual time=0.518..2.136 rows=58 loops=3)
+                                                              Filter: (route_id = '506'::text)
+                                                              Rows Removed by Filter: 26101
+                                                              Buffers: shared hit=783
+                                                        ->  Hash  (cost=1002.08..1002.08 rows=604 width=5) (actual time=1.253..1.254 rows=604 loops=3)
+                                                              Buckets: 1024  Batches: 1  Memory Usage: 30kB
+                                                              Buffers: shared hit=2985
+                                                              ->  Seq Scan on recorridos r  (cost=0.00..1002.08 rows=604 width=5) (actual time=0.037..1.070 rows=604 loops=3)
+                                                                    Filter: es_principal
+                                                                    Rows Removed by Filter: 104
+                                                                    Buffers: shared hit=2985
+                    ->  Hash  (cost=186.12..186.12 rows=6812 width=86) (actual time=28.219..28.220 rows=6812 loops=3)
+                          Buckets: 8192  Batches: 1  Memory Usage: 790kB
+                          Buffers: shared hit=354
+                          ->  Seq Scan on paraderos_gtfs p  (cost=0.00..186.12 rows=6812 width=86) (actual time=24.743..26.232 rows=6812 loops=3)
+                                Buffers: shared hit=354
+  ->  Limit  (cost=1435.63..1435.64 rows=1 width=36) (actual time=3.891..3.892 rows=1 loops=117)
+        Buffers: shared hit=30891
+        ->  Sort  (cost=1435.63..1439.04 rows=1360 width=36) (actual time=3.890..3.890 rows=1 loops=117)
+              Sort Key: ((a.geom <-> p.geom))
+              Sort Method: top-N heapsort  Memory: 25kB
+              Buffers: shared hit=30891
+              ->  Seq Scan on amenidades a  (cost=0.00..1428.84 rows=1360 width=36) (actual time=0.003..3.630 rows=1360 loops=117)
+                    Filter: (amenity = ANY ('{pharmacy,hospital,clinic,doctors}'::text[]))
+                    Rows Removed by Filter: 19629
+                    Buffers: shared hit=30888
+Planning:
+  Buffers: shared hit=514
+Planning Time: 2.064 ms
+JIT:
+  Functions: 109
+  Options: Inlining false, Optimization false, Expressions true, Deforming true
+  Timing: Generation 7.175 ms, Inlining 0.000 ms, Optimization 3.214 ms, Emission 71.258 ms, Total 81.647 ms
+Execution Time: 608.532 ms

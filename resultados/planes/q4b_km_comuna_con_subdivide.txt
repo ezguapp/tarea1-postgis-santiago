@@ -1,0 +1,31 @@
+Sort  (cost=6186.30..6186.38 rows=30 width=152) (actual time=2544.450..2544.455 rows=30 loops=1)
+  Sort Key: (round(((sum(st_length(st_intersection(r.geom, s.geom, '-1'::double precision))) FILTER (WHERE r.es_principal) / '1000'::double precision))::numeric, 1)) DESC
+  Sort Method: quicksort  Memory: 27kB
+  Buffers: shared hit=60607
+  ->  GroupAggregate  (cost=42.26..6185.56 rows=30 width=152) (actual time=227.809..2544.340 rows=30 loops=1)
+        Group Key: s.cut, s.nombre
+        Buffers: shared hit=60604
+        ->  Incremental Sort  (cost=42.26..1257.86 rows=130 width=10544) (actual time=12.956..262.023 rows=4184 loops=1)
+              Sort Key: s.cut, s.nombre, r.route_id
+              Presorted Key: s.cut
+              Full-sort Groups: 30  Sort Method: quicksort  Average Memory: 441kB  Peak Memory: 441kB
+              Pre-sorted Groups: 28  Sort Method: quicksort  Average Memory: 2136kB  Peak Memory: 2136kB
+              Buffers: shared hit=31990
+              ->  Merge Join  (cost=0.42..1254.26 rows=130 width=10544) (actual time=0.533..245.562 rows=4184 loops=1)
+                    Merge Cond: (s.cut = c.cut)
+                    Buffers: shared hit=31990
+                    ->  Nested Loop  (cost=0.29..1223.04 rows=130 width=10536) (actual time=0.519..243.806 rows=4184 loops=1)
+                          Buffers: shared hit=31959
+                          ->  Index Scan using comunas_sub_cut_idx on comunas_sub s  (cost=0.14..36.62 rows=86 width=2441) (actual time=0.013..0.138 rows=86 loops=1)
+                                Buffers: shared hit=47
+                          ->  Index Scan using recorridos_geom_gix on recorridos r  (cost=0.14..13.79 rows=1 width=8095) (actual time=0.282..2.818 rows=49 loops=86)
+                                Index Cond: (geom && s.geom)
+                                Filter: st_intersects(geom, s.geom)
+                                Rows Removed by Filter: 56
+                                Buffers: shared hit=31912
+                    ->  Index Scan using comunas_pkey on comunas c  (cost=0.14..29.52 rows=30 width=14) (actual time=0.012..0.133 rows=30 loops=1)
+                          Buffers: shared hit=31
+Planning:
+  Buffers: shared hit=395
+Planning Time: 9.562 ms
+Execution Time: 2544.642 ms

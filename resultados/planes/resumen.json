@@ -1,0 +1,542 @@
+{
+ "q1_paraderos_comuna": {
+  "archivo": "q1_paraderos_comuna.json",
+  "planning_ms": 11.105,
+  "execution_ms": 39.534,
+  "indices": [
+   {
+    "tipo": "Index Scan",
+    "indice": "paraderos_gtfs_geom_gix",
+    "tabla": "paraderos_gtfs",
+    "condicion": "(geom && s.geom)",
+    "orden_knn": null,
+    "lado": "Nested Loop: lado interno (se sondea una vez por cada fila del lado externo)",
+    "subplan": null,
+    "loops": 86,
+    "filas_por_loop": 76,
+    "nodo_padre": "Nested Loop"
+   },
+   {
+    "tipo": "Index Scan",
+    "indice": "comunas_pkey",
+    "tabla": "comunas",
+    "condicion": "",
+    "orden_knn": null,
+    "lado": "Hash Join: lado interno (se sondea una vez por cada fila del lado externo)",
+    "subplan": null,
+    "loops": 1,
+    "filas_por_loop": 30,
+    "nodo_padre": "Hash Join"
+   }
+  ],
+  "seq_scans": [
+   {
+    "tabla": "comunas_sub",
+    "loops": 1,
+    "filas": 86,
+    "filtro": ""
+   }
+  ]
+ },
+ "q1_paraderos_comuna_sin_indice": {
+  "archivo": "q1_paraderos_comuna_sin_indice.json",
+  "planning_ms": 9.455,
+  "execution_ms": 531.665,
+  "indices": [],
+  "seq_scans": [
+   {
+    "tabla": "comunas",
+    "loops": 1,
+    "filas": 30,
+    "filtro": ""
+   },
+   {
+    "tabla": "paraderos_gtfs",
+    "loops": 1,
+    "filas": 6569,
+    "filtro": "es_bus"
+   },
+   {
+    "tabla": "comunas_sub",
+    "loops": 1,
+    "filas": 86,
+    "filtro": ""
+   }
+  ]
+ },
+ "q2_cobertura": {
+  "archivo": "q2_cobertura.json",
+  "planning_ms": 10.309,
+  "execution_ms": 4719.802,
+  "indices": [
+   {
+    "tipo": "Index Scan",
+    "indice": "edificios_pto_gix",
+    "tabla": "edificios",
+    "condicion": "(pto && s.geom)",
+    "orden_knn": null,
+    "lado": "Nested Loop: lado interno (se sondea una vez por cada fila del lado externo)",
+    "subplan": null,
+    "loops": 86,
+    "filas_por_loop": 1383,
+    "nodo_padre": "Nested Loop"
+   },
+   {
+    "tipo": "Index Scan",
+    "indice": "paraderos_gtfs_geom_gix",
+    "tabla": "paraderos_gtfs",
+    "condicion": "(geom && st_expand(ed.pto, '500'::double precision))",
+    "orden_knn": null,
+    "lado": "dentro de un subplan (EXISTS/NOT EXISTS o subconsulta por fila)",
+    "subplan": "SubPlan 1",
+    "loops": 118950,
+    "filas_por_loop": 1,
+    "nodo_padre": null
+   },
+   {
+    "tipo": "Index Scan",
+    "indice": "paraderos_osm_geom_gix",
+    "tabla": "paraderos_osm",
+    "condicion": "(geom && st_expand(ed.pto, '500'::double precision))",
+    "orden_knn": null,
+    "lado": "dentro de un subplan (EXISTS/NOT EXISTS o subconsulta por fila)",
+    "subplan": "SubPlan 3",
+    "loops": 118950,
+    "filas_por_loop": 1,
+    "nodo_padre": null
+   },
+   {
+    "tipo": "Index Scan",
+    "indice": "comunas_pkey",
+    "tabla": "comunas",
+    "condicion": "",
+    "orden_knn": null,
+    "lado": "Hash Join: lado interno (se sondea una vez por cada fila del lado externo)",
+    "subplan": null,
+    "loops": 1,
+    "filas_por_loop": 30,
+    "nodo_padre": "Hash Join"
+   }
+  ],
+  "seq_scans": [
+   {
+    "tabla": "caja",
+    "loops": 1,
+    "filas": 1,
+    "filtro": ""
+   },
+   {
+    "tabla": "comunas_sub",
+    "loops": 1,
+    "filas": 86,
+    "filtro": ""
+   }
+  ]
+ },
+ "q3_dos_fuentes": {
+  "archivo": "q3_dos_fuentes.json",
+  "planning_ms": 9.683,
+  "execution_ms": 945.151,
+  "indices": [
+   {
+    "tipo": "Index Scan",
+    "indice": "paraderos_osm_geom_gix",
+    "tabla": "paraderos_osm",
+    "condicion": "(geom && st_expand(p.geom, (\"*VALUES*\".column1)::double precision))",
+    "orden_knn": null,
+    "lado": "dentro de un subplan (EXISTS/NOT EXISTS o subconsulta por fila)",
+    "subplan": "SubPlan 1",
+    "loops": 19707,
+    "filas_por_loop": 1,
+    "nodo_padre": null
+   },
+   {
+    "tipo": "Index Scan",
+    "indice": "paraderos_gtfs_geom_gix",
+    "tabla": "paraderos_gtfs",
+    "condicion": "(geom && st_expand(o.geom, (\"*VALUES*\".column1)::double precision))",
+    "orden_knn": null,
+    "lado": "dentro de un subplan (EXISTS/NOT EXISTS o subconsulta por fila)",
+    "subplan": "SubPlan 2",
+    "loops": 19716,
+    "filas_por_loop": 1,
+    "nodo_padre": null
+   }
+  ],
+  "seq_scans": [
+   {
+    "tabla": "paraderos_gtfs",
+    "loops": 3,
+    "filas": 6569,
+    "filtro": "es_bus"
+   },
+   {
+    "tabla": "paraderos_osm",
+    "loops": 3,
+    "filas": 6572,
+    "filtro": ""
+   }
+  ]
+ },
+ "q4a_km_comuna_sin_subdivide": {
+  "archivo": "q4a_km_comuna_sin_subdivide.json",
+  "planning_ms": 9.332,
+  "execution_ms": 2496.512,
+  "indices": [
+   {
+    "tipo": "Index Scan",
+    "indice": "comunas_pkey",
+    "tabla": "comunas",
+    "condicion": "",
+    "orden_knn": null,
+    "lado": "Nested Loop: lado externo (se recorre una vez y guía el join)",
+    "subplan": null,
+    "loops": 1,
+    "filas_por_loop": 30,
+    "nodo_padre": "Nested Loop"
+   },
+   {
+    "tipo": "Index Scan",
+    "indice": "recorridos_geom_gix",
+    "tabla": "recorridos",
+    "condicion": "(geom && c.geom)",
+    "orden_knn": null,
+    "lado": "Nested Loop: lado interno (se sondea una vez por cada fila del lado externo)",
+    "subplan": null,
+    "loops": 30,
+    "filas_por_loop": 110,
+    "nodo_padre": "Nested Loop"
+   }
+  ],
+  "seq_scans": []
+ },
+ "q4a_km_comuna_sin_subdivide_sin_indice": {
+  "archivo": "q4a_km_comuna_sin_subdivide_sin_indice.json",
+  "planning_ms": 10.796,
+  "execution_ms": 2912.027,
+  "indices": [],
+  "seq_scans": [
+   {
+    "tabla": "recorridos",
+    "loops": 1,
+    "filas": 708,
+    "filtro": ""
+   },
+   {
+    "tabla": "comunas",
+    "loops": 1,
+    "filas": 30,
+    "filtro": ""
+   }
+  ]
+ },
+ "q4b_km_comuna_con_subdivide": {
+  "archivo": "q4b_km_comuna_con_subdivide.json",
+  "planning_ms": 9.455,
+  "execution_ms": 2495.402,
+  "indices": [
+   {
+    "tipo": "Index Scan",
+    "indice": "comunas_sub_cut_idx",
+    "tabla": "comunas_sub",
+    "condicion": "",
+    "orden_knn": null,
+    "lado": "Nested Loop: lado externo (se recorre una vez y guía el join)",
+    "subplan": null,
+    "loops": 1,
+    "filas_por_loop": 86,
+    "nodo_padre": "Nested Loop"
+   },
+   {
+    "tipo": "Index Scan",
+    "indice": "recorridos_geom_gix",
+    "tabla": "recorridos",
+    "condicion": "(geom && s.geom)",
+    "orden_knn": null,
+    "lado": "Nested Loop: lado interno (se sondea una vez por cada fila del lado externo)",
+    "subplan": null,
+    "loops": 86,
+    "filas_por_loop": 49,
+    "nodo_padre": "Nested Loop"
+   },
+   {
+    "tipo": "Index Scan",
+    "indice": "comunas_pkey",
+    "tabla": "comunas",
+    "condicion": "",
+    "orden_knn": null,
+    "lado": "Merge Join: lado interno (se sondea una vez por cada fila del lado externo)",
+    "subplan": null,
+    "loops": 1,
+    "filas_por_loop": 30,
+    "nodo_padre": "Merge Join"
+   }
+  ],
+  "seq_scans": []
+ },
+ "q5_vecino_salud": {
+  "archivo": "q5_vecino_salud.json",
+  "planning_ms": 2.02,
+  "execution_ms": 15.17,
+  "indices": [
+   {
+    "tipo": "Index Scan",
+    "indice": "viajes_route_idx",
+    "tabla": "viajes",
+    "condicion": "(route_id = '506'::text)",
+    "orden_knn": null,
+    "lado": "Nested Loop: lado externo (se recorre una vez y guía el join)",
+    "subplan": null,
+    "loops": 1,
+    "filas_por_loop": 58,
+    "nodo_padre": "Nested Loop"
+   },
+   {
+    "tipo": "Bitmap Index Scan",
+    "indice": "recorridos_pkey",
+    "tabla": "recorridos",
+    "condicion": "(shape_id = v.shape_id)",
+    "orden_knn": null,
+    "lado": "Nested Loop: lado interno (se sondea una vez por cada fila del lado externo)",
+    "subplan": null,
+    "loops": 2,
+    "filas_por_loop": 1,
+    "nodo_padre": "Nested Loop"
+   },
+   {
+    "tipo": "Index Scan",
+    "indice": "stop_times_trip_idx",
+    "tabla": "stop_times",
+    "condicion": "(trip_id = v.trip_id)",
+    "orden_knn": null,
+    "lado": "Nested Loop: lado interno (se sondea una vez por cada fila del lado externo)",
+    "subplan": null,
+    "loops": 2,
+    "filas_por_loop": 92,
+    "nodo_padre": "Nested Loop"
+   },
+   {
+    "tipo": "Index Scan",
+    "indice": "paraderos_gtfs_pkey",
+    "tabla": "paraderos_gtfs",
+    "condicion": "(stop_id = st.stop_id)",
+    "orden_knn": null,
+    "lado": "Nested Loop: lado interno (se sondea una vez por cada fila del lado externo)",
+    "subplan": null,
+    "loops": 183,
+    "filas_por_loop": 1,
+    "nodo_padre": "Nested Loop"
+   },
+   {
+    "tipo": "Index Scan",
+    "indice": "amenidades_salud_gix",
+    "tabla": "amenidades",
+    "condicion": "(geom <-> p.geom)",
+    "orden_knn": "(geom <-> p.geom)",
+    "lado": "Nested Loop: lado interno (se sondea una vez por cada fila del lado externo)",
+    "subplan": null,
+    "loops": 117,
+    "filas_por_loop": 1,
+    "nodo_padre": "Nested Loop"
+   }
+  ],
+  "seq_scans": []
+ },
+ "q5_vecino_salud_sin_indice": {
+  "archivo": "q5_vecino_salud_sin_indice.json",
+  "planning_ms": 2.242,
+  "execution_ms": 598.732,
+  "indices": [],
+  "seq_scans": [
+   {
+    "tabla": "stop_times",
+    "loops": 3,
+    "filas": 366176,
+    "filtro": ""
+   },
+   {
+    "tabla": "viajes",
+    "loops": 3,
+    "filas": 58,
+    "filtro": "(route_id = '506'::text)"
+   },
+   {
+    "tabla": "recorridos",
+    "loops": 3,
+    "filas": 604,
+    "filtro": "es_principal"
+   },
+   {
+    "tabla": "paraderos_gtfs",
+    "loops": 3,
+    "filas": 6812,
+    "filtro": ""
+   },
+   {
+    "tabla": "amenidades",
+    "loops": 117,
+    "filas": 1360,
+    "filtro": "(amenity = ANY ('{pharmacy,hospital,clinic,doctors}'::text[]))"
+   }
+  ]
+ },
+ "q6_grilla_calculo": {
+  "archivo": "q6_grilla_calculo.json",
+  "planning_ms": 2.047,
+  "execution_ms": 4645.767,
+  "indices": [
+   {
+    "tipo": "Index Scan",
+    "indice": "recorridos_tramos_geom_gix",
+    "tabla": "recorridos_tramos",
+    "condicion": "(geom && h_1.geom)",
+    "orden_knn": null,
+    "lado": "Nested Loop: lado interno (se sondea una vez por cada fila del lado externo)",
+    "subplan": null,
+    "loops": 636,
+    "filas_por_loop": 63,
+    "nodo_padre": "Nested Loop"
+   },
+   {
+    "tipo": "Index Scan",
+    "indice": "paraderos_gtfs_geom_gix",
+    "tabla": "paraderos_gtfs",
+    "condicion": "(geom && h_2.geom)",
+    "orden_knn": null,
+    "lado": "Nested Loop: lado interno (se sondea una vez por cada fila del lado externo)",
+    "subplan": null,
+    "loops": 636,
+    "filas_por_loop": 10,
+    "nodo_padre": "Nested Loop"
+   },
+   {
+    "tipo": "Index Scan",
+    "indice": "edificios_pto_gix",
+    "tabla": "edificios",
+    "condicion": "(pto && h_3.geom)",
+    "orden_knn": null,
+    "lado": "Nested Loop: lado interno (se sondea una vez por cada fila del lado externo)",
+    "subplan": null,
+    "loops": 636,
+    "filas_por_loop": 187,
+    "nodo_padre": "Nested Loop"
+   }
+  ],
+  "seq_scans": [
+   {
+    "tabla": "caja",
+    "loops": 1,
+    "filas": 1,
+    "filtro": ""
+   },
+   {
+    "tabla": "caja",
+    "loops": 1,
+    "filas": 1,
+    "filtro": ""
+   }
+  ]
+ },
+ "q6_top10": {
+  "archivo": "q6_top10.json",
+  "planning_ms": 9.236,
+  "execution_ms": 99.831,
+  "indices": [
+   {
+    "tipo": "Index Scan",
+    "indice": "comunas_sub_geom_gix",
+    "tabla": "comunas_sub",
+    "condicion": "(geom && st_centroid(g.geom))",
+    "orden_knn": null,
+    "lado": "Nested Loop: lado interno (se sondea una vez por cada fila del lado externo)",
+    "subplan": null,
+    "loops": 521,
+    "filas_por_loop": 1,
+    "nodo_padre": "Nested Loop"
+   }
+  ],
+  "seq_scans": [
+   {
+    "tabla": "mv_grilla",
+    "loops": 1,
+    "filas": 521,
+    "filtro": "((frac_en_caja >= 0.99) AND (n_edificios > 0))"
+   }
+  ]
+ },
+ "q7a_jerarquia_vial": {
+  "archivo": "q7a_jerarquia_vial.json",
+  "planning_ms": 9.964,
+  "execution_ms": 179435.589,
+  "indices": [
+   {
+    "tipo": "Index Scan",
+    "indice": "recorridos_tramos_geom_gix",
+    "tabla": "recorridos_tramos",
+    "condicion": "(geom && st_expand(st_lineinterpolatepoint(d.geom, '0.5'::double precision), '15'::double precision))",
+    "orden_knn": null,
+    "lado": "dentro de un subplan (EXISTS/NOT EXISTS o subconsulta por fila)",
+    "subplan": "SubPlan 1",
+    "loops": 960010,
+    "filas_por_loop": 0,
+    "nodo_padre": null
+   },
+   {
+    "tipo": "Index Scan",
+    "indice": "recorridos_tramos_geom_gix",
+    "tabla": "recorridos_tramos",
+    "condicion": "(geom && st_expand(st_lineinterpolatepoint(d.geom, '0.5'::double precision), '15'::double precision))",
+    "orden_knn": null,
+    "lado": "dentro de un subplan (EXISTS/NOT EXISTS o subconsulta por fila)",
+    "subplan": "SubPlan 2",
+    "loops": 960010,
+    "filas_por_loop": 0,
+    "nodo_padre": null
+   },
+   {
+    "tipo": "Index Scan",
+    "indice": "recorridos_tramos_geom_gix",
+    "tabla": "recorridos_tramos",
+    "condicion": "(geom && st_expand(st_lineinterpolatepoint(d.geom, '0.5'::double precision), '15'::double precision))",
+    "orden_knn": null,
+    "lado": "dentro de un subplan (EXISTS/NOT EXISTS o subconsulta por fila)",
+    "subplan": "SubPlan 3",
+    "loops": 960010,
+    "filas_por_loop": 0,
+    "nodo_padre": null
+   },
+   {
+    "tipo": "Index Scan",
+    "indice": "recorridos_tramos_geom_gix",
+    "tabla": "recorridos_tramos",
+    "condicion": "(geom && st_expand(st_lineinterpolatepoint(d.geom, '0.5'::double precision), '15'::double precision))",
+    "orden_knn": null,
+    "lado": "dentro de un subplan (EXISTS/NOT EXISTS o subconsulta por fila)",
+    "subplan": "SubPlan 4",
+    "loops": 960010,
+    "filas_por_loop": 0,
+    "nodo_padre": null
+   },
+   {
+    "tipo": "Index Scan",
+    "indice": "recorridos_tramos_geom_gix",
+    "tabla": "recorridos_tramos",
+    "condicion": "(geom && st_expand(st_lineinterpolatepoint(d.geom, '0.5'::double precision), '15'::double precision))",
+    "orden_knn": null,
+    "lado": "dentro de un subplan (EXISTS/NOT EXISTS o subconsulta por fila)",
+    "subplan": "SubPlan 5",
+    "loops": 960010,
+    "filas_por_loop": 0,
+    "nodo_padre": null
+   }
+  ],
+  "seq_scans": [
+   {
+    "tabla": "calles",
+    "loops": 2,
+    "filas": 35088,
+    "filtro": "(highway = ANY ('{motorway,motorway_link,trunk,trunk_link,primary,primary_link,secondary,secondary_link,tertiary,tertiary_link,unclassified,residential,living_street,service}'::text[]))"
+   }
+  ]
+ }
+}

@@ -1,0 +1,57 @@
+Sort  (cost=932437.79..932437.87 rows=31 width=233) (actual time=4674.600..4674.605 rows=31 loops=1)
+  Sort Key: ((c.nombre IS NULL)), (round((100.0 * avg((((NOT (SubPlan 1))))::integer)), 2)) DESC
+  Sort Method: quicksort  Memory: 28kB
+  Buffers: shared hit=976428
+  InitPlan 8 (returns $7)
+    ->  Seq Scan on caja  (cost=0.00..13.51 rows=1 width=32) (actual time=0.419..0.421 rows=1 loops=1)
+          Buffers: shared hit=1
+  ->  MixedAggregate  (cost=15712.97..932423.52 rows=31 width=233) (actual time=4674.486..4674.532 rows=31 loops=1)
+        Hash Key: c.cut, c.nombre
+        Group Key: ()
+        Batches: 1  Memory Usage: 32kB
+        Buffers: shared hit=976420
+        ->  Hash Join  (cost=15712.97..932260.45 rows=3235 width=19) (actual time=1230.028..4627.277 rows=118950 loops=1)
+              Hash Cond: (ed.cut = c.cut)
+              Buffers: shared hit=976420
+              ->  Subquery Scan on ed  (cost=15683.07..932172.74 rows=21567 width=9) (actual time=278.996..3639.534 rows=118950 loops=1)
+                    Buffers: shared hit=976389
+                    ->  Unique  (cost=15683.07..15790.91 rows=21567 width=42) (actual time=278.378..315.330 rows=118950 loops=1)
+                          Buffers: shared hit=113756
+                          ->  Sort  (cost=15683.07..15736.99 rows=21567 width=42) (actual time=278.374..295.684 rows=118950 loops=1)
+                                Sort Key: e.id, s.cut
+                                Sort Method: quicksort  Memory: 10507kB
+                                Buffers: shared hit=113756
+                                ->  Nested Loop  (cost=0.28..14130.62 rows=21567 width=42) (actual time=0.392..241.895 rows=118950 loops=1)
+                                      Buffers: shared hit=113750
+                                      ->  Seq Scan on comunas_sub s  (cost=0.00..30.86 rows=86 width=2431) (actual time=0.007..0.072 rows=86 loops=1)
+                                            Buffers: shared hit=30
+                                      ->  Index Scan using edificios_pto_gix on edificios e  (cost=0.28..163.83 rows=12 width=36) (actual time=0.063..2.656 rows=1383 loops=86)
+                                            Index Cond: (pto && s.geom)
+                                            Filter: st_intersects(s.geom, pto)
+                                            Rows Removed by Filter: 772
+                                            Buffers: shared hit=113720
+                    SubPlan 1
+                      ->  Index Scan using paraderos_gtfs_geom_gix on paraderos_gtfs p  (cost=0.27..14.99 rows=1 width=0) (actual time=0.013..0.013 rows=1 loops=118950)
+                            Index Cond: (geom && st_expand(ed.pto, '500'::double precision))
+                            Filter: (es_bus AND st_dwithin(geom, ed.pto, '500'::double precision))
+                            Rows Removed by Filter: 1
+                            Buffers: shared hit=436223
+                    SubPlan 3
+                      ->  Index Scan using paraderos_osm_geom_gix on paraderos_osm o  (cost=0.27..14.99 rows=1 width=0) (actual time=0.013..0.013 rows=1 loops=118950)
+                            Index Cond: (geom && st_expand(ed.pto, '500'::double precision))
+                            Filter: st_dwithin(geom, ed.pto, '500'::double precision)
+                            Rows Removed by Filter: 1
+                            Buffers: shared hit=426409
+              ->  Hash  (cost=29.52..29.52 rows=30 width=16) (actual time=951.006..951.006 rows=30 loops=1)
+                    Buckets: 1024  Batches: 1  Memory Usage: 10kB
+                    Buffers: shared hit=31
+                    ->  Index Scan using comunas_pkey on comunas c  (cost=0.14..29.52 rows=30 width=16) (actual time=950.899..950.976 rows=30 loops=1)
+                          Buffers: shared hit=31
+Planning:
+  Buffers: shared hit=455
+Planning Time: 10.501 ms
+JIT:
+  Functions: 72
+  Options: Inlining true, Optimization true, Expressions true, Deforming true
+  Timing: Generation 5.788 ms, Inlining 75.170 ms, Optimization 523.333 ms, Emission 352.474 ms, Total 956.764 ms
+Execution Time: 4698.781 ms

@@ -1,0 +1,109 @@
+etapa,clave,valor
+config,bbox_4326,"-70.75,-33.52,-70.52,-33.36"
+config,srid,5361
+config,area_caja_km2,379.4
+config,postgis_version,"POSTGIS=""3.4.3 e365945"" [EXTENSION] PGSQL=""160"" GEOS=""3.9.0-CAPI-1.16.2"" PROJ=""7.2.1 NETWORK_ENABLED=OFF URL_ENDPOINT=https://cdn.proj.org USER_WRITABLE_DIRECTORY=/var/lib/postgresql/.local/share/proj DATABASE_PATH=/usr/share/proj/proj.db"" LIBXML=""2.9.10"" LIBJSON=""0.15"" LIBPROTOBUF=""1.3.3"" WAGYU=""0.5.0 (Internal)"" TOPOLOGY"
+config,postgres_version,"PostgreSQL 16.4 (Debian 16.4-1.pgdg110+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 10.2.1-6) 10.2.1 20210110, 64-bit"
+osm,pbf_archivo,chile-latest.osm.pbf
+osm,pbf_bytes,349785713
+osm,pbf_timestamp,2026-10-17T20:20:51Z
+osm,pbf_mtime,2026-10-18T04:25:47Z
+osm,fuente_cargada,chile-latest.osm.pbf (recorte osmium extract --strategy complete_ways)
+osm,recorte_bytes,17454909
+osm,raw_points,256223
+osm,raw_lines,169787
+osm,raw_multipolygons,146968
+tiempos,10 osm carga,45
+osm,edificios_total_antes,119151
+osm,edificios_invalidos,227
+osm,edificios_invalidos_motivo:IllegalArgumentException: Invalid number of points in LinearRing found 2 - must be 0 or >= 4,46
+osm,edificios_invalidos_motivo:IllegalArgumentException: Invalid number of points in LinearRing found 3 - must be 0 or >= 4,155
+osm,edificios_invalidos_motivo:Self-intersection,26
+osm,edificios_descartados_vacios_tras_reparar,201
+osm,edificios_fuera_de_caja_descartados,0
+osm,edificios_invalidos_despues,0
+osm,amenidades_area_invalidas,26
+osm,calles,100925
+osm,edificios,118950
+osm,paraderos_osm,6572
+osm,amenidades,20989
+osm,amenidades_salud,1360
+tiempos,11 osm derivar,26
+gtfs,zip_archivo,GTFS_20261003.zip
+gtfs,zip_bytes,12820680
+gtfs,zip_sha256,e2dded096b18fdf8
+gtfs,zip_mtime,2026-10-18T04:33:57Z
+gtfs,raw_agency,4
+gtfs,raw_agency_segundos,0
+gtfs,raw_calendar_dates,12
+gtfs,raw_calendar_dates_segundos,0
+gtfs,raw_calendar,6
+gtfs,raw_calendar_segundos,0
+gtfs,raw_feed_info,1
+gtfs,raw_feed_info_segundos,0
+gtfs,raw_frequencies,14542
+gtfs,raw_frequencies_segundos,0
+gtfs,raw_levels,474
+gtfs,raw_levels_segundos,1
+gtfs,raw_pathways,7388
+gtfs,raw_pathways_segundos,0
+gtfs,raw_routes,428
+gtfs,raw_routes_segundos,0
+gtfs,raw_shapes,456573
+gtfs,raw_shapes_segundos,1
+gtfs,raw_stops,18455
+gtfs,raw_stops_segundos,1
+gtfs,raw_stop_times,1098529
+gtfs,raw_stop_times_segundos,1
+gtfs,raw_trips,26159
+gtfs,raw_trips_segundos,1
+tiempos,20 gtfs carga,7
+gtfs,stops_total_feed,18455
+gtfs,stops_en_caja_todas,7162
+gtfs,paraderos_gtfs,6812
+gtfs,paraderos_gtfs_bus,6569
+gtfs,paraderos_gtfs_riel,242
+gtfs,paraderos_gtfs_sin_viajes,1
+gtfs,shapes_total_feed,981
+gtfs,shapes_puntos_total,456573
+gtfs,shapes_secuencias_duplicadas,0
+gtfs,shapes_que_quedarian_mal_ordenando_como_texto,981
+gtfs,shapes_con_shape_dist_traveled_decreciente,0
+gtfs,recorridos_tramos,33286
+gtfs,shapes_sin_viajes,122
+gtfs,shapes_usados_por_mas_de_una_ruta_o_sentido,0
+gtfs,recorridos,708
+gtfs,recorridos_principales,604
+gtfs,rutas_en_caja,347
+gtfs,rutas_con_mas_de_un_shape,270
+gtfs,recorridos_no_simples(autointersectan),257
+gtfs,stop_times,1098529
+gtfs,feed_info:feed_lang,es
+gtfs,feed_info:feed_version,V168.20261003
+gtfs,feed_info:feed_end_date,20261231
+gtfs,feed_info:feed_start_date,20261003
+gtfs,feed_info:feed_publisher_url,http://www.red.cl
+gtfs,feed_info:feed_publisher_name,Red Metropolitana
+gtfs,calendar_rango,20261003 a 20261231
+gtfs,agencias,Bus de Acercamiento Aeropuerto; EFE Trenes de Chile; Metro de Santiago; Red Metropolitana de Movilidad
+gtfs,frequencies,14542
+tiempos,21 gtfs derivar,14
+dpa,sql_archivo,comunas_cl.sql
+dpa,sql_bytes,218387036
+dpa,errores_no_fatales_al_cargar,0
+tiempos,30 dpa carga,86
+dpa,tabla_origen,dpa_raw.comunas_cl
+dpa,srid_origen,5361
+dpa,columna_nombre,comuna
+dpa,columna_codigo,cut_com
+dpa,columna_region,region
+dpa,filas_en_caja_envolvente,31
+dpa,comunas_invalidas,0
+dpa,comunas,30
+dpa,comunas_completas_en_caja,13
+dpa,comunas_sub_piezas,86
+dpa,vertices_promedio_comuna,420
+dpa,vertices_promedio_pieza,149
+tiempos,31 dpa derivar,7
+tiempos,90 indices,39
+tiempos,total,224

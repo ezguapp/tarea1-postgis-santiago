@@ -1,0 +1,118 @@
+sentido,orden,codigo,paradero,tipo_salud,salud_mas_cercana,distancia_m
+0,33,,PI387-Parada 2 / Paradero 12 Pajaritos,clinic,CESFAM Clotario Blest,583
+0,34,,PI388-Parada / Colegio Santa María de Maipú,clinic,CESFAM Clotario Blest,712
+0,35,,PI389-Parada 2 / (M) Monte Tabor,pharmacy,Farmacias Saint Germain,736
+0,36,,PI534-Parada 3 / Paradero 10 Pajaritos,pharmacy,Farmacias Saint Germain,204
+0,37,,PI535-Av. Las Parcelas / esq. Botswana,doctors,COSAM Lo Errázuriz,308
+0,38,,PI536-Parada / Colegio Errázuriz,doctors,COSAM Lo Errázuriz,77
+0,39,,PI537-Sur de Chile / esq. Reyes Católicos,doctors,COSAM Lo Errázuriz,432
+0,40,,PI538-Sur de Chile / esq. Gandhi,clinic,Cecosf lo Errazuriz,296
+0,41,,PI539-Parada / CECOSF Lo Errázuriz,clinic,Cecosf lo Errazuriz,52
+0,42,,PI1461-Santa Corina / esq. Ortega y Gasset,clinic,Cecosf lo Errazuriz,189
+0,43,,PI38-Parada 1 / Liceo A70,clinic,Cecosf lo Errazuriz,464
+0,44,,PI39-Avenida 5 de Abril / esq. Quemchi,clinic,Cecosf Villa Francia,497
+0,45,,PI40-Avenida 5 de Abril / esq. Yelcho,clinic,Cecosf Villa Francia,546
+0,46,,PI41-Avenida 5 de Abril / esq. Av. Aeropuerto,clinic,Cecosf Villa Francia,728
+0,47,,PI42-Avenida 5 de Abril / esq. Av. Aeropuerto,pharmacy,Saint Germain,642
+0,48,,PI43-Avenida 5 de Abril / esq. Pasaje Sevilla,pharmacy,Saint Germain,389
+0,49,,PI44-Parada 5 / 5 de Abril - Las Rejas,pharmacy,Saint Germain,108
+0,50,,PI540-Avenida 5 de Abril / esq. Guadal,pharmacy,Saint Germain,175
+0,51,,PI541-Parada / Liceo Polivalente Guillermo Feliú C.,pharmacy,Farmacia Leo,269
+0,52,,PI542-Parada 1 / Colegio Villa España,pharmacy,Farmacia Leo,25
+0,53,,PI543-Avenida 5 de Abril / esq. General Amengual,pharmacy,Farmacia Leo,237
+0,54,,PI544-Avenida 5 de Abril / esq. Padre V. Irarrázaval,pharmacy,Farmacia Leo,496
+0,55,,PI545-Arica / esq. Av. Padre A. Hurtado,pharmacy,Farmacias del Dr. Simi,575
+0,56,,PI546-Arica / esq. Ob. Manuel Umaña,pharmacy,Cruz Verde,665
+0,57,,PA289-Parada 1 / Molina - Blanco,pharmacy,,551
+0,58,,PA290-Parada 1 / Avenida España - Blanco,pharmacy,La Torre,446
+0,59,,PA433-Parada 1 / Escuela de Ingeniería,pharmacy,La Torre,69
+0,60,,PA434-Parada 1 / Plaza Ercilla,pharmacy,La Torre,275
+0,61,,PA435-Parada 4 / (M) Parque O'Higgins,pharmacy,Siboney,95
+0,62,,PA436-Avenida Matta / esq. Nataniel Cox,pharmacy,Cruz Verde,269
+0,63,,PA658-Avenida Matta / esq. San Diego,pharmacy,Cruz Verde,52
+0,64,,PA438-Parada 6 / (M) Matta,pharmacy,Valle de vida,52
+0,65,,PA439-Parada 5 / (M) Matta,pharmacy,Farmacia Nobel,43
+0,66,,PA440-Avenida Matta / esq. Carmen,clinic,Policlínico Genchi,187
+0,67,,PA666-Avenida Matta / esq. Sierra Bella,clinic,Clínica Sierra Bella,109
+0,68,,PA442-Avenida Matta / esq. Avenida Portugal,clinic,Lifante,105
+0,69,,PD524-Parada 3 / (M) Irarrázaval,pharmacy,Cruz Verde,177
+0,70,,PD525-Parada 3 / Conjunto Empart Ñuñoa,pharmacy,SalcoBrand,473
+0,71,,PD644-Parada 1 / Villa Olímpica,clinic,Centro Médico y Dental S.A.H.,123
+0,72,,PD589-Parada 1 / Avenida Marathon,clinic,Instituto de Salud Pública de Chile (ISP),326
+0,73,,PD115-Parada 1 / (M) Estadio Nacional,pharmacy,,308
+0,74,,PD116-Parada 1 / Los Tres Antonios,pharmacy,,340
+0,75,,PD590-Parada 1 / Pedagógico,pharmacy,Farmacias Ahumada,63
+0,76,,PD592-Parada 1 / CESFAM Salvador Bustos,clinic,CESFAM Salvador Bustos,97
+0,77,,PD645-Parada 1 / Centro Olímpico Marlene Ahrens,doctors,Centro Integral de la Persona Mayor,493
+0,78,,PD535-Parada 5 / (M) Grecia,clinic,CESFAM Padre Gerardo Whelan,564
+0,79,,PD571-Parada 1 / Los Molineros - Av. Grecia,clinic,Universal,505
+0,80,,PD572-Parada 1 / Ictinos - Avenida Grecia,clinic,Universal,47
+0,81,,PD573-Parada 1 / Calle 1A - Avenida Grecia,pharmacy,Farmacia Jovita,303
+0,82,,PD1322-Parada 1 / Tobalaba - Avenida Grecia,pharmacy,Farmacia Jovita,529
+0,83,,PD537-Avenida Grecia / esq. Los Tordos,doctors,SAPU La Faena,687
+0,84,,PD538-Avenida Grecia / esq. Las Garzas,pharmacy,SalcoBrand,413
+0,85,,PD1323-Avenida Grecia / esq. Av. Consistorial,pharmacy,SalcoBrand,37
+0,86,,PD539-Parada / Municipalidad de Peñalolén,doctors,SAPU Carol Urzúa Ibáñez,178
+0,87,,PD540-Parada 1 / El Acueducto - Jacarandá,doctors,CECOSF General Carol Urzúa Ibáñez,390
+0,88,,PD541-Avenida Grecia / esq. Los Araucanos,doctors,CECOSF General Carol Urzúa Ibáñez,177
+0,89,,PD542-Avenida Grecia / esq. Pablo Neruda,doctors,CECOSF General Carol Urzúa Ibáñez,450
+0,90,,PD543-Avenida Grecia / esq. Av. Diag. Las Torres,doctors,CECOSF General Carol Urzúa Ibáñez,802
+0,91,,PD1439-Av. Diagonal Las Torres / esq. Álvaro Casanova,doctors,CECOSF General Carol Urzúa Ibáñez,909
+1,1,,PD1429-Av. Diagonal Las Torres / esq. Álvaro Casanova,doctors,CECOSF General Carol Urzúa Ibáñez,924
+1,2,,PD544-Avenida Grecia / esq. Qda. de Sn. Pedro,doctors,CECOSF General Carol Urzúa Ibáñez,522
+1,3,,PD545-Avenida Grecia / esq. Los Picachos,doctors,CECOSF General Carol Urzúa Ibáñez,224
+1,4,,PD548-Avenida Grecia / esq. Jacarandá,doctors,CECOSF General Carol Urzúa Ibáñez,287
+1,5,,PD547-Avenida Grecia / esq. Amanecer,clinic,Consultorio Carol Urzúa Ibáñez,404
+1,6,,PD1359-Parada / Municipalidad de Peñalolén,clinic,Servimedic,94
+1,7,,PD549-Avenida Grecia / esq. Palena,pharmacy,SalcoBrand,299
+1,8,,PD550-Avenida Grecia / esq. Pasaje 444,pharmacy,SalcoBrand,731
+1,9,,PD574-Parada 2 / Calle 1A - Avenida Grecia,pharmacy,Farmacia Jovita,459
+1,10,,PD575-Parada 2 / Ictinos - Avenida Grecia,pharmacy,Farmacia Jovita,31
+1,11,,PD576-Parada 2 / Los Molineros - Av. Grecia,clinic,Universal,351
+1,12,,PD577-Parada 2 / Cruz Almeyda - Avenida Grecia,clinic,CESFAM Padre Gerardo Whelan,478
+1,13,,PD553-Parada 4 / (M) Grecia,clinic,CESFAM Padre Gerardo Whelan,576
+1,14,,PD578-Parada 2 / Centro Olímpico Marlene Ahrens,doctors,Centro Integral de la Persona Mayor,605
+1,15,,PD579-Parada 2 / CESFAM Salvador Bustos,clinic,CESFAM Salvador Bustos,59
+1,16,,PD559-Parada 2 / Pedagógico,pharmacy,María Medicinal Growshop,23
+1,17,,PD581-Parada 2 / Los Tres Antonios,pharmacy,Farmacias Ahumada,330
+1,18,,PD582-Parada 2 / (M) Estadio Nacional,pharmacy,,213
+1,19,,PD583-Parada 2 / Avenida Marathon,clinic,Instituto de Salud Pública de Chile (ISP),399
+1,20,,PD584-Parada 2 / Villa Olímpica,clinic,Instituto de Salud Pública de Chile (ISP),232
+1,21,,PD585-Parada 2 / Conjunto Empart Ñuñoa,clinic,Centro Médico y Dental S.A.H.,304
+1,22,,PD564-Parada 2 / (M) Irarrázaval,pharmacy,SalcoBrand,111
+1,23,,PA443-Avenida Matta / esq. Avenida Portugal,clinic,Lifante,148
+1,24,,PA444-Avenida Matta / esq. Lira,clinic,Clínica Sierra Bella,158
+1,25,,PA445-Avenida Matta / esq. Carmen,clinic,Policlínico Genchi,188
+1,26,,PA446-Parada 2 / (M) Matta,pharmacy,Farmacias del Dr. Simi,32
+1,27,,PA447-Parada 7 / (M) Matta,pharmacy,Valle de vida,29
+1,28,,PA448-Avenida Matta / esq. San Diego,pharmacy,Cruz Verde,63
+1,29,,PA449-Avenida Matta / esq. Nataniel Cox,pharmacy,Cruz Verde,231
+1,30,,PA450-Parada 1 / (M) Parque O'Higgins,pharmacy,Siboney,104
+1,31,,PA451-Parada 4 / Plaza Ercilla,pharmacy,La Torre,249
+1,32,,PA452-Parada 4 / Escuela de Ingeniería,pharmacy,La Torre,35
+1,33,,PA453-Parada 4 / Avenida España - Blanco,pharmacy,La Torre,398
+1,34,,PA278-Parada 2 / Bascuñán - Blanco,pharmacy,,480
+1,35,,PI547-Arica / esq. Jotabeche,pharmacy,Cruz Verde,627
+1,36,,PI1182-Arica / esq. Nicasio Retamales,pharmacy,Farmacia Belgochilena,588
+1,37,,PI548-Arica / esq. Toro Mazotte,pharmacy,Farmacias del Dr. Simi,539
+1,38,,PI549-Avenida 5 de Abril / esq. Con Con,pharmacy,Farmacia Leo,480
+1,39,,PI550-Avenida 5 de Abril / esq. General Amengual,pharmacy,Farmacia Leo,282
+1,40,,PI551-Parada 2 / Colegio Villa España,pharmacy,Farmacia Leo,24
+1,41,,PI552-Avenida 5 de Abril / esq. Las Magnolias,clinic,Centro Médico y Dental,299
+1,42,,PI553-Parada 6 / 5 de Abril - Las Rejas,pharmacy,Saint Germain,121
+1,43,,PI3-Avenida 5 de Abril / esq. Catalpas Pte.,pharmacy,Saint Germain,329
+1,44,,PI4-Avenida 5 de Abril / esq. Los Duraznos,pharmacy,Saint Germain,548
+1,45,,PI5-Avenida 5 de Abril / esq. Vista Hermosa,clinic,Cecosf Villa Francia,749
+1,46,,PI6-Avenida 5 de Abril / esq. Vista Hermosa,clinic,Cecosf Villa Francia,609
+1,47,,PI7-Avenida 5 de Abril / esq. El Altarcillo,clinic,Cecosf Villa Francia,546
+1,48,,PI8-Parada 2 / Liceo A70,clinic,Cecosf lo Errazuriz,446
+1,49,,PI1318-Santa Corina / esq. Voltaire,clinic,Cecosf lo Errazuriz,184
+1,50,,PI555-Av. Las Parcelas / esq. Gracia de Dios,clinic,Cecosf lo Errazuriz,373
+1,51,,PI1313-Av. Las Parcelas / esq. Avenida Las Torres,doctors,COSAM Lo Errázuriz,431
+1,52,,PI556-Av. Las Parcelas / esq. Los Ducados,doctors,COSAM Lo Errázuriz,222
+1,53,,PI557-Parada / Colegio Errázuriz,doctors,COSAM Lo Errázuriz,45
+1,54,,PI558-Av. Las Parcelas / esq. Berkley,doctors,COSAM Lo Errázuriz,333
+1,55,,PI559-Parada 4 / Paradero 10 Pajaritos,pharmacy,Farmacias Saint Germain,153
+1,56,,PI416-Parada 1 / (M) Monte Tabor,pharmacy,Farmacias Saint Germain,644
+1,57,,PI417-Parada / Colegio Santa María de Maipú,clinic,CESFAM Clotario Blest,756
+1,58,,PI418-Parada 1 / Paradero 12 Pajaritos,clinic,CESFAM Clotario Blest,607

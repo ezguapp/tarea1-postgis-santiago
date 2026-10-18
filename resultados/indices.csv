@@ -1,0 +1,34 @@
+tabla,indice,tipo,definicion,tamano
+amenidades,amenidades_amenity_idx,btree,CREATE INDEX amenidades_amenity_idx ON stgo.amenidades USING btree (amenity),168 kB
+amenidades,amenidades_geom_gix,gist,CREATE INDEX amenidades_geom_gix ON stgo.amenidades USING gist (geom),872 kB
+amenidades,amenidades_pkey,btree,CREATE UNIQUE INDEX amenidades_pkey ON stgo.amenidades USING btree (id),480 kB
+amenidades,amenidades_salud_gix,gist,"CREATE INDEX amenidades_salud_gix ON stgo.amenidades USING gist (geom) WHERE (amenity = ANY (ARRAY['pharmacy'::text, 'hospital'::text, 'clinic'::text, 'doctors'::text]))",56 kB
+calles,calles_geom_gix,gist,CREATE INDEX calles_geom_gix ON stgo.calles USING gist (geom),4184 kB
+calles,calles_highway_idx,btree,CREATE INDEX calles_highway_idx ON stgo.calles USING btree (highway),712 kB
+calles,calles_pkey,btree,CREATE UNIQUE INDEX calles_pkey ON stgo.calles USING btree (id),2224 kB
+comunas,comunas_geom_gix,gist,CREATE INDEX comunas_geom_gix ON stgo.comunas USING gist (geom),8192 bytes
+comunas,comunas_pkey,btree,CREATE UNIQUE INDEX comunas_pkey ON stgo.comunas USING btree (cut),16 kB
+comunas_sub,comunas_sub_cut_idx,btree,CREATE INDEX comunas_sub_cut_idx ON stgo.comunas_sub USING btree (cut),16 kB
+comunas_sub,comunas_sub_geom_gix,gist,CREATE INDEX comunas_sub_geom_gix ON stgo.comunas_sub USING gist (geom),8192 bytes
+comunas_sub,comunas_sub_pkey,btree,CREATE UNIQUE INDEX comunas_sub_pkey ON stgo.comunas_sub USING btree (id),16 kB
+config,config_pkey,btree,CREATE UNIQUE INDEX config_pkey ON stgo.config USING btree (clave),16 kB
+edificios,edificios_geom_gix,gist,CREATE INDEX edificios_geom_gix ON stgo.edificios USING gist (geom),4864 kB
+edificios,edificios_pkey,btree,CREATE UNIQUE INDEX edificios_pkey ON stgo.edificios USING btree (id),2632 kB
+edificios,edificios_pto_gix,gist,CREATE INDEX edificios_pto_gix ON stgo.edificios USING gist (pto),4808 kB
+etl_log,etl_log_pkey,btree,CREATE UNIQUE INDEX etl_log_pkey ON stgo.etl_log USING btree (id),16 kB
+paraderos_gtfs,paraderos_gtfs_geom_gix,gist,CREATE INDEX paraderos_gtfs_geom_gix ON stgo.paraderos_gtfs USING gist (geom),272 kB
+paraderos_gtfs,paraderos_gtfs_pkey,btree,CREATE UNIQUE INDEX paraderos_gtfs_pkey ON stgo.paraderos_gtfs USING btree (stop_id),168 kB
+paraderos_osm,paraderos_osm_geom_gix,gist,CREATE INDEX paraderos_osm_geom_gix ON stgo.paraderos_osm USING gist (geom),264 kB
+paraderos_osm,paraderos_osm_pkey,btree,CREATE UNIQUE INDEX paraderos_osm_pkey ON stgo.paraderos_osm USING btree (id),160 kB
+recorridos,recorridos_geom_gix,gist,CREATE INDEX recorridos_geom_gix ON stgo.recorridos USING gist (geom),40 kB
+recorridos,recorridos_pkey,btree,CREATE UNIQUE INDEX recorridos_pkey ON stgo.recorridos USING btree (shape_id),56 kB
+recorridos,recorridos_route_idx,btree,CREATE INDEX recorridos_route_idx ON stgo.recorridos USING btree (route_id),32 kB
+recorridos,recorridos_short_idx,btree,CREATE INDEX recorridos_short_idx ON stgo.recorridos USING btree (route_short_name),32 kB
+recorridos_tramos,recorridos_tramos_geom_gix,gist,CREATE INDEX recorridos_tramos_geom_gix ON stgo.recorridos_tramos USING gist (geom),1392 kB
+recorridos_tramos,recorridos_tramos_pkey,btree,CREATE UNIQUE INDEX recorridos_tramos_pkey ON stgo.recorridos_tramos USING btree (id),744 kB
+rutas,rutas_pkey,btree,CREATE UNIQUE INDEX rutas_pkey ON stgo.rutas USING btree (route_id),32 kB
+stop_times,stop_times_stop_idx,btree,CREATE INDEX stop_times_stop_idx ON stgo.stop_times USING btree (stop_id),7728 kB
+stop_times,stop_times_trip_idx,btree,"CREATE INDEX stop_times_trip_idx ON stgo.stop_times USING btree (trip_id, stop_sequence)",36 MB
+viajes,viajes_pkey,btree,CREATE UNIQUE INDEX viajes_pkey ON stgo.viajes USING btree (trip_id),936 kB
+viajes,viajes_route_idx,btree,CREATE INDEX viajes_route_idx ON stgo.viajes USING btree (route_id),208 kB
+viajes,viajes_shape_idx,btree,CREATE INDEX viajes_shape_idx ON stgo.viajes USING btree (shape_id),216 kB

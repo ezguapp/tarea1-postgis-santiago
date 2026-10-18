@@ -1,0 +1,50 @@
+Incremental Sort  (cost=186.17..273.78 rows=67 width=116) (actual time=3.974..7.010 rows=117 loops=1)
+  Sort Key: v.direction_id, st.stop_sequence
+  Presorted Key: v.direction_id
+  Full-sort Groups: 2  Sort Method: quicksort  Average Memory: 31kB  Peak Memory: 31kB
+  Buffers: shared hit=1087
+  ->  Nested Loop  (cost=99.44..271.21 rows=67 width=116) (actual time=0.675..6.930 rows=117 loops=1)
+        Buffers: shared hit=1084
+        ->  Nested Loop  (cost=99.30..202.08 rows=67 width=88) (actual time=0.354..0.997 rows=117 loops=1)
+              Buffers: shared hit=507
+              ->  Nested Loop  (cost=99.01..171.77 rows=101 width=14) (actual time=0.221..0.322 rows=183 loops=1)
+                    Buffers: shared hit=24
+                    ->  Unique  (cost=98.59..98.79 rows=2 width=20) (actual time=0.191..0.201 rows=2 loops=1)
+                          Buffers: shared hit=12
+                          ->  Sort  (cost=98.59..98.69 rows=41 width=20) (actual time=0.190..0.195 rows=58 loops=1)
+                                Sort Key: v.direction_id, v.trip_id
+                                Sort Method: quicksort  Memory: 27kB
+                                Buffers: shared hit=12
+                                ->  Nested Loop  (cost=0.71..97.49 rows=41 width=20) (actual time=0.048..0.091 rows=58 loops=1)
+                                      Buffers: shared hit=9
+                                      ->  Index Scan using viajes_route_idx on viajes v  (cost=0.29..10.42 rows=58 width=25) (actual time=0.019..0.029 rows=58 loops=1)
+                                            Index Cond: (route_id = '506'::text)
+                                            Buffers: shared hit=3
+                                      ->  Memoize  (cost=0.43..1.54 rows=1 width=5) (actual time=0.001..0.001 rows=1 loops=58)
+                                            Cache Key: v.shape_id
+                                            Cache Mode: logical
+                                            Hits: 56  Misses: 2  Evictions: 0  Overflows: 0  Memory Usage: 1kB
+                                            Buffers: shared hit=6
+                                            ->  Bitmap Heap Scan on recorridos r  (cost=0.42..1.53 rows=1 width=5) (actual time=0.011..0.011 rows=1 loops=2)
+                                                  Recheck Cond: (v.shape_id = shape_id)
+                                                  Filter: es_principal
+                                                  Heap Blocks: exact=2
+                                                  Buffers: shared hit=6
+                                                  ->  Bitmap Index Scan on recorridos_pkey  (cost=0.00..0.42 rows=1 width=0) (actual time=0.007..0.007 rows=1 loops=2)
+                                                        Index Cond: (shape_id = v.shape_id)
+                                                        Buffers: shared hit=4
+                    ->  Index Scan using stop_times_trip_idx on stop_times st  (cost=0.43..35.98 rows=50 width=24) (actual time=0.020..0.045 rows=92 loops=2)
+                          Index Cond: (trip_id = v.trip_id)
+                          Buffers: shared hit=12
+              ->  Index Scan using paraderos_gtfs_pkey on paraderos_gtfs p  (cost=0.28..0.30 rows=1 width=86) (actual time=0.003..0.003 rows=1 loops=183)
+                    Index Cond: (stop_id = st.stop_id)
+                    Buffers: shared hit=483
+        ->  Limit  (cost=0.14..1.01 rows=1 width=36) (actual time=0.049..0.049 rows=1 loops=117)
+              Buffers: shared hit=577
+              ->  Index Scan using amenidades_salud_gix on amenidades a  (cost=0.14..1172.05 rows=1360 width=36) (actual time=0.048..0.048 rows=1 loops=117)
+                    Order By: (geom <-> p.geom)
+                    Buffers: shared hit=577
+Planning:
+  Buffers: shared hit=514
+Planning Time: 2.013 ms
+Execution Time: 15.308 ms

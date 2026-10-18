@@ -1,0 +1,29 @@
+Sort  (cost=275620.22..275620.29 rows=30 width=160) (actual time=2835.094..2835.099 rows=30 loops=1)
+  Sort Key: (round(((sum(st_length(st_intersection(r.geom, c.geom, '-1'::double precision))) FILTER (WHERE r.es_principal) / '1000'::double precision))::numeric, 1)) DESC
+  Sort Method: quicksort  Memory: 27kB
+  Buffers: shared hit=68586
+  ->  GroupAggregate  (cost=266827.07..275619.48 rows=30 width=160) (actual time=684.413..2834.941 rows=30 loops=1)
+        Group Key: c.cut
+        Buffers: shared hit=68583
+        ->  Sort  (cost=266827.07..266827.65 rows=232 width=14887) (actual time=503.517..505.081 rows=3298 loops=1)
+              Sort Key: c.cut, r.route_id
+              Sort Method: quicksort  Memory: 13237kB
+              Buffers: shared hit=33650
+              ->  Nested Loop  (cost=0.00..266817.96 rows=232 width=14887) (actual time=17.677..485.579 rows=3298 loops=1)
+                    Join Filter: st_intersects(r.geom, c.geom)
+                    Rows Removed by Join Filter: 17942
+                    Buffers: shared hit=33647
+                    ->  Seq Scan on recorridos r  (cost=0.00..1002.08 rows=708 width=8095) (actual time=0.017..1.473 rows=708 loops=1)
+                          Buffers: shared hit=995
+                    ->  Materialize  (cost=0.00..50.45 rows=30 width=6792) (actual time=0.024..0.026 rows=30 loops=708)
+                          Buffers: shared hit=50
+                          ->  Seq Scan on comunas c  (cost=0.00..50.30 rows=30 width=6792) (actual time=16.989..17.078 rows=30 loops=1)
+                                Buffers: shared hit=50
+Planning:
+  Buffers: shared hit=312
+Planning Time: 9.429 ms
+JIT:
+  Functions: 13
+  Options: Inlining false, Optimization false, Expressions true, Deforming true
+  Timing: Generation 1.977 ms, Inlining 0.000 ms, Optimization 0.629 ms, Emission 16.400 ms, Total 19.007 ms
+Execution Time: 2855.432 ms

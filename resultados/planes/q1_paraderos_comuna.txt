@@ -1,0 +1,38 @@
+Sort  (cost=1351.21..1351.29 rows=30 width=176) (actual time=34.597..34.602 rows=30 loops=1)
+  Sort Key: (round((((count(p.stop_id))::double precision / NULLIF(c.area_caja_km2, '0'::double precision)))::numeric, 1)) DESC NULLS LAST
+  Sort Method: quicksort  Memory: 28kB
+  Buffers: shared hit=8662
+  ->  GroupAggregate  (cost=1347.60..1350.48 rows=30 width=176) (actual time=33.460..34.543 rows=30 loops=1)
+        Group Key: c.cut
+        Buffers: shared hit=8659
+        ->  Sort  (cost=1347.60..1348.11 rows=204 width=46) (actual time=33.335..33.634 rows=6569 loops=1)
+              Sort Key: c.cut
+              Sort Method: quicksort  Memory: 665kB
+              Buffers: shared hit=8659
+              ->  Hash Right Join  (cost=1329.33..1339.77 rows=204 width=46) (actual time=27.119..30.365 rows=6569 loops=1)
+                    Hash Cond: (s.cut = c.cut)
+                    Buffers: shared hit=8656
+                    ->  Unique  (cost=1299.43..1306.23 rows=1359 width=12) (actual time=27.010..28.400 rows=6569 loops=1)
+                          Buffers: shared hit=8625
+                          ->  Sort  (cost=1299.43..1302.83 rows=1359 width=12) (actual time=27.008..27.345 rows=6569 loops=1)
+                                Sort Key: p.stop_id, s.cut
+                                Sort Method: quicksort  Memory: 449kB
+                                Buffers: shared hit=8625
+                                ->  Nested Loop  (cost=0.15..1228.71 rows=1359 width=12) (actual time=0.244..15.696 rows=6569 loops=1)
+                                      Buffers: shared hit=8625
+                                      ->  Seq Scan on comunas_sub s  (cost=0.00..30.86 rows=86 width=2431) (actual time=0.004..0.052 rows=86 loops=1)
+                                            Buffers: shared hit=30
+                                      ->  Index Scan using paraderos_gtfs_geom_gix on paraderos_gtfs p  (cost=0.15..13.92 rows=1 width=38) (actual time=0.024..0.173 rows=76 loops=86)
+                                            Index Cond: (geom && s.geom)
+                                            Filter: (es_bus AND st_intersects(s.geom, geom))
+                                            Rows Removed by Filter: 49
+                                            Buffers: shared hit=8595
+                    ->  Hash  (cost=29.52..29.52 rows=30 width=40) (actual time=0.093..0.093 rows=30 loops=1)
+                          Buckets: 1024  Batches: 1  Memory Usage: 11kB
+                          Buffers: shared hit=31
+                          ->  Index Scan using comunas_pkey on comunas c  (cost=0.14..29.52 rows=30 width=40) (actual time=0.015..0.080 rows=30 loops=1)
+                                Buffers: shared hit=31
+Planning:
+  Buffers: shared hit=359
+Planning Time: 9.998 ms
+Execution Time: 34.895 ms

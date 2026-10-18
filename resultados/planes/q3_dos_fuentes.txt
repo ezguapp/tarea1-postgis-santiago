@@ -1,0 +1,39 @@
+Sort  (cost=592382.79..592382.80 rows=3 width=100) (actual time=936.204..936.207 rows=3 loops=1)
+  Sort Key: "*VALUES*".column1
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=119993
+  ->  Nested Loop  (cost=197460.84..592382.77 rows=3 width=100) (actual time=600.596..936.165 rows=3 loops=1)
+        Buffers: shared hit=119990
+        ->  Nested Loop  (cost=98721.12..296163.46 rows=3 width=20) (actual time=518.347..686.889 rows=3 loops=1)
+              Buffers: shared hit=60128
+              ->  Values Scan on "*VALUES*"  (cost=0.00..0.04 rows=3 width=4) (actual time=0.010..0.018 rows=3 loops=1)
+              ->  Aggregate  (cost=98721.12..98721.13 rows=1 width=16) (actual time=228.949..228.950 rows=1 loops=3)
+                    Buffers: shared hit=60128
+                    ->  Seq Scan on paraderos_gtfs p  (cost=0.00..186.12 rows=6569 width=32) (actual time=143.350..144.962 rows=6569 loops=3)
+                          Filter: es_bus
+                          Rows Removed by Filter: 243
+                          Buffers: shared hit=354
+                    SubPlan 1
+                      ->  Index Scan using paraderos_osm_geom_gix on paraderos_osm o_1  (cost=0.28..14.99 rows=1 width=0) (actual time=0.012..0.012 rows=1 loops=19707)
+                            Index Cond: (geom && st_expand(p.geom, ("*VALUES*".column1)::double precision))
+                            Filter: st_dwithin(geom, p.geom, ("*VALUES*".column1)::double precision)
+                            Rows Removed by Filter: 0
+                            Buffers: shared hit=59774
+        ->  Aggregate  (cost=98739.72..98739.73 rows=1 width=16) (actual time=83.079..83.080 rows=1 loops=3)
+              Buffers: shared hit=59862
+              ->  Seq Scan on paraderos_osm o  (cost=0.00..159.72 rows=6572 width=32) (actual time=0.003..0.725 rows=6572 loops=3)
+                    Buffers: shared hit=282
+              SubPlan 2
+                ->  Index Scan using paraderos_gtfs_geom_gix on paraderos_gtfs p_1  (cost=0.28..14.99 rows=1 width=0) (actual time=0.012..0.012 rows=1 loops=19716)
+                      Index Cond: (geom && st_expand(o.geom, ("*VALUES*".column1)::double precision))
+                      Filter: (es_bus AND st_dwithin(geom, o.geom, ("*VALUES*".column1)::double precision))
+                      Rows Removed by Filter: 0
+                      Buffers: shared hit=59580
+Planning:
+  Buffers: shared hit=254
+Planning Time: 9.519 ms
+JIT:
+  Functions: 26
+  Options: Inlining true, Optimization true, Expressions true, Deforming true
+  Timing: Generation 2.404 ms, Inlining 70.304 ms, Optimization 212.173 ms, Emission 147.645 ms, Total 432.525 ms
+Execution Time: 955.818 ms

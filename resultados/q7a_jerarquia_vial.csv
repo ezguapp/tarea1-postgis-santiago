@@ -1,0 +1,10 @@
+categoria,km_calle,km_con_bus,pct_con_bus,km_sin_bus,pct_de_la_red_bus
+motorway,323.6,269.2,83.2,54.4,11.7
+trunk,3.6,0.3,9.6,3.2,0.0
+primary,558.1,524.4,94.0,33.7,22.7
+secondary,646.6,533.5,82.5,113.0,23.1
+tertiary,903.9,497.5,55.0,406.4,21.6
+unclassified,84.1,28.1,33.3,56.1,1.2
+residential,2443.9,250.1,10.2,2193.9,10.8
+living_street,1791.2,93.4,5.2,1697.7,4.1
+service,1221.1,110.5,9.0,1110.6,4.8

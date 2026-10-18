@@ -69,7 +69,11 @@ Fechas de descarga (completar a mano): OSM descargado el **DD-MM-AAAA**, GTFS de
 El resto lo escribe el pipeline desde `stgo.etl_log` (fecha de la cabecera del PBF, nombre y hash del ZIP):
 
 <!-- AUTO:FUENTES -->
-(se completa al correr ./consultas.sh)
+| Fuente | Versión / fecha | Detalle (de stgo.etl_log) |
+|---|---|---|
+| OSM chile-latest.osm.pbf (Geofabrik) | 2026-10-17 | chile-latest.osm.pbf (recorte osmium extract --strategy complete_ways) |
+| GTFS DTPM | GTFS_20261003.zip | sha256 e2dded096b18fdf8…, vigencia 20261003 a 20261231 |
+| DPA 2023 comunas (Lab 03) | comunas_cl.sql | tabla dpa_raw.comunas_cl, SRID origen 5361 |
 <!-- /AUTO:FUENTES -->
 
 Si la DTPM publica un GTFS nuevo después de la descarga, **no se migra**: se entrega con el ZIP indicado arriba.
@@ -97,7 +101,21 @@ Todo lo derivado vive en el esquema `stgo`, en **SRID 5361** (SIRGAS-Chile / UTM
 Conteos e índices de la última corrida (`resultados/conteos.csv`, `resultados/indices.csv`):
 
 <!-- AUTO:CONTEOS -->
-(se completa al correr ./consultas.sh)
+| Tabla (stgo.) | Filas | Geometría | Tamaño | Índices |
+|---|---|---|---|---|
+| amenidades | 20989 | POINT 5361 | 3728 kB | amenidades_amenity_idx (btree), amenidades_geom_gix (gist), amenidades_pkey (btree), amenidades_salud_gix (gist) |
+| caja | 1 | POLYGON 5361 | 48 kB | — |
+| calles | 100925 | MULTILINESTRING 5361 | 25 MB | calles_geom_gix (gist), calles_highway_idx (btree), calles_pkey (btree) |
+| comunas | 30 | MULTIPOLYGON 5361 | 672 kB | comunas_geom_gix (gist), comunas_pkey (btree) |
+| comunas_sub | 86 | POLYGON 5361 | 320 kB | comunas_sub_cut_idx (btree), comunas_sub_geom_gix (gist), comunas_sub_pkey (btree) |
+| edificios | 118950 | MULTIPOLYGON 5361 | 67 MB | edificios_geom_gix (gist), edificios_pkey (btree), edificios_pto_gix (gist) |
+| paraderos_gtfs | 6812 | POINT 5361 | 1424 kB | paraderos_gtfs_geom_gix (gist), paraderos_gtfs_pkey (btree) |
+| paraderos_osm | 6572 | POINT 5361 | 1216 kB | paraderos_osm_geom_gix (gist), paraderos_osm_pkey (btree) |
+| recorridos | 708 | LINESTRING 5361 | 12 MB | recorridos_geom_gix (gist), recorridos_pkey (btree), recorridos_route_idx (btree), recorridos_short_idx (btree) |
+| recorridos_tramos | 33286 | LINESTRING 5361 | 11 MB | recorridos_tramos_geom_gix (gist), recorridos_tramos_pkey (btree) |
+| rutas | 428 | — | 104 kB | rutas_pkey (btree) |
+| stop_times | 1098529 | — | 118 MB | stop_times_stop_idx (btree), stop_times_trip_idx (btree) |
+| viajes | 26159 | — | 3488 kB | viajes_pkey (btree), viajes_route_idx (btree), viajes_shape_idx (btree) |
 <!-- /AUTO:CONTEOS -->
 
 ## 4. Decisiones tomadas
@@ -115,8 +133,23 @@ Conteos e índices de la última corrida (`resultados/conteos.csv`, `resultados/
   los que quedan vacíos se descartan. Cuántos y por qué:
 
   <!-- AUTO:REPARACIONES -->
-  (se completa al correr ./consultas.sh)
-  <!-- /AUTO:REPARACIONES -->
+- `osm.edificios_invalidos`: **227**
+- `osm.edificios_invalidos_motivo:IllegalArgumentException: Invalid number of points in LinearRing found 2 - must be 0 or >= 4`: **46**
+- `osm.edificios_invalidos_motivo:IllegalArgumentException: Invalid number of points in LinearRing found 3 - must be 0 or >= 4`: **155**
+- `osm.edificios_invalidos_motivo:Self-intersection`: **26**
+- `osm.edificios_descartados_vacios_tras_reparar`: **201**
+- `osm.edificios_fuera_de_caja_descartados`: **0**
+- `osm.edificios_invalidos_despues`: **0**
+- `osm.amenidades_area_invalidas`: **26**
+- `gtfs.paraderos_gtfs_sin_viajes`: **1**
+- `gtfs.shapes_secuencias_duplicadas`: **0**
+- `gtfs.shapes_que_quedarian_mal_ordenando_como_texto`: **981**
+- `gtfs.shapes_sin_viajes`: **122**
+- `gtfs.shapes_usados_por_mas_de_una_ruta_o_sentido`: **0**
+- `gtfs.rutas_con_mas_de_un_shape`: **270**
+- `gtfs.recorridos_no_simples(autointersectan)`: **257**
+- `dpa.comunas_invalidas`: **0**
+<!-- /AUTO:REPARACIONES -->
 
 - **GTFS con `\copy`** (COPY del lado cliente, un flujo por archivo; nunca INSERT por fila) a tablas `UNLOGGED`
   de texto con las columnas de la cabecera de cada archivo; los tipos se fijan al derivar. `stop_times.txt` se carga
@@ -136,8 +169,15 @@ Conteos e índices de la última corrida (`resultados/conteos.csv`, `resultados/
   consulta (`pg_stat_user_indexes`, medido después de `./consultas.sh`; es un hallazgo, no un error):
 
   <!-- AUTO:INDICES_NO_USADOS -->
-  (se completa al correr ./consultas.sh)
-  <!-- /AUTO:INDICES_NO_USADOS -->
+- `amenidades_amenity_idx` (amenidades, 168 kB)
+- `amenidades_geom_gix` (amenidades, 872 kB)
+- `calles_highway_idx` (calles, 712 kB)
+- `comunas_geom_gix` (comunas, 8192 bytes)
+- `edificios_geom_gix` (edificios, 4864 kB)
+- `mv_grilla_geom_gix` (mv_grilla, 40 kB)
+- `mv_grilla_ij_idx` (mv_grilla, 32 kB)
+- `recorridos_short_idx` (recorridos, 32 kB)
+<!-- /AUTO:INDICES_NO_USADOS -->
 
 ## 5. Consultas (Parte C)
 

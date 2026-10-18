@@ -1,0 +1,26 @@
+Sort  (cost=9247.61..9247.69 rows=30 width=160) (actual time=2520.939..2520.943 rows=30 loops=1)
+  Sort Key: (round(((sum(st_length(st_intersection(r.geom, c.geom, '-1'::double precision))) FILTER (WHERE r.es_principal) / '1000'::double precision))::numeric, 1)) DESC
+  Sort Method: quicksort  Memory: 27kB
+  Buffers: shared hit=58801
+  ->  GroupAggregate  (cost=15.32..9246.88 rows=30 width=160) (actual time=197.735..2520.830 rows=30 loops=1)
+        Group Key: c.cut
+        Buffers: shared hit=58798
+        ->  Incremental Sort  (cost=15.32..455.05 rows=232 width=14887) (actual time=12.980..193.654 rows=3298 loops=1)
+              Sort Key: c.cut, r.route_id
+              Presorted Key: c.cut
+              Full-sort Groups: 30  Sort Method: quicksort  Average Memory: 442kB  Peak Memory: 442kB
+              Pre-sorted Groups: 27  Sort Method: quicksort  Average Memory: 2138kB  Peak Memory: 2138kB
+              Buffers: shared hit=23865
+              ->  Nested Loop  (cost=0.28..448.12 rows=232 width=14887) (actual time=0.541..182.712 rows=3298 loops=1)
+                    Buffers: shared hit=23862
+                    ->  Index Scan using comunas_pkey on comunas c  (cost=0.14..29.52 rows=30 width=6792) (actual time=0.008..0.105 rows=30 loops=1)
+                          Buffers: shared hit=31
+                    ->  Index Scan using recorridos_geom_gix on recorridos r  (cost=0.14..13.94 rows=1 width=8095) (actual time=0.453..6.047 rows=110 loops=30)
+                          Index Cond: (geom && c.geom)
+                          Filter: st_intersects(geom, c.geom)
+                          Rows Removed by Filter: 125
+                          Buffers: shared hit=23764
+Planning:
+  Buffers: shared hit=312
+Planning Time: 9.631 ms
+Execution Time: 2521.129 ms

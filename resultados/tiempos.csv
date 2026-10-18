@@ -1,0 +1,14 @@
+consulta,variante,planning_ms,execution_ms
+q1_paraderos_comuna,con_indices,11.1,39.5
+q1_paraderos_comuna,sin_indices,9.5,531.7
+q2_cobertura,con_indices,10.3,4719.8
+q3_dos_fuentes,con_indices,9.7,945.2
+q4a_km_comuna_sin_subdivide,con_indices,9.3,2496.5
+q4a_km_comuna_sin_subdivide,sin_indices,10.8,2912.0
+q4b_km_comuna_con_subdivide,con_indices,9.5,2495.4
+q5_vecino_salud,con_indices,2.0,15.2
+q5_vecino_salud,sin_indices,2.2,598.7
+q6_grilla_mv,construccion_vista,,3566
+q6_grilla_calculo,con_indices,2.0,4645.8
+q6_top10,con_indices,9.2,99.8
+q7a_jerarquia_vial,con_indices,10.0,179435.6

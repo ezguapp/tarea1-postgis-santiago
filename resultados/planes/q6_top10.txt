@@ -1,0 +1,31 @@
+Limit  (cost=8159.76..8422.76 rows=10 width=171) (actual time=100.661..100.732 rows=10 loops=1)
+  Buffers: shared hit=1366
+  ->  Result  (cost=8159.76..21309.76 rows=500 width=171) (actual time=100.660..100.728 rows=10 loops=1)
+        Buffers: shared hit=1366
+        ->  Sort  (cost=8159.76..8161.01 rows=500 width=259) (actual time=10.597..10.604 rows=10 loops=1)
+              Sort Key: (row_number() OVER (?))
+              Sort Method: top-N heapsort  Memory: 27kB
+              Buffers: shared hit=1274
+              ->  WindowAgg  (cost=8126.45..8148.95 rows=500 width=259) (actual time=10.196..10.445 rows=521 loops=1)
+                    Buffers: shared hit=1271
+                    ->  Sort  (cost=8126.45..8127.70 rows=500 width=219) (actual time=10.181..10.212 rows=521 loops=1)
+                          Sort Key: (((g.n_edificios)::numeric / ((g.n_recorridos + 1))::numeric)) DESC, g.n_edificios DESC, g.celda
+                          Sort Method: quicksort  Memory: 141kB
+                          Buffers: shared hit=1271
+                          ->  Nested Loop Left Join  (cost=0.76..8104.04 rows=500 width=219) (actual time=0.254..9.734 rows=521 loops=1)
+                                Buffers: shared hit=1262
+                                ->  Seq Scan on mv_grilla g  (cost=0.00..41.54 rows=500 width=177) (actual time=0.015..0.254 rows=521 loops=1)
+                                      Filter: ((frac_en_caja >= 0.99) AND (n_edificios > 0))
+                                      Rows Removed by Filter: 115
+                                      Buffers: shared hit=32
+                                ->  Limit  (cost=0.76..16.11 rows=1 width=10) (actual time=0.017..0.017 rows=1 loops=521)
+                                      Buffers: shared hit=1230
+                                      ->  Index Scan using comunas_sub_geom_gix on comunas_sub s  (cost=0.76..16.11 rows=1 width=10) (actual time=0.015..0.015 rows=1 loops=521)
+                                            Index Cond: (geom && st_centroid(g.geom))
+                                            Filter: st_intersects(geom, st_centroid(g.geom))
+                                            Rows Removed by Filter: 0
+                                            Buffers: shared hit=1230
+Planning:
+  Buffers: shared hit=367
+Planning Time: 9.230 ms
+Execution Time: 100.958 ms

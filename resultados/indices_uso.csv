@@ -1,0 +1,36 @@
+tabla,indice,usos,tuplas_leidas,tamano,nota
+amenidades,amenidades_amenity_idx,0,0,168 kB,NO USADO
+amenidades,amenidades_geom_gix,0,0,872 kB,NO USADO
+amenidades,amenidades_pkey,0,0,480 kB,NO USADO
+calles,calles_highway_idx,0,0,712 kB,NO USADO
+calles,calles_pkey,0,0,2224 kB,NO USADO
+comunas,comunas_geom_gix,0,0,8192 bytes,NO USADO
+comunas_sub,comunas_sub_pkey,0,0,16 kB,NO USADO
+config,config_pkey,0,0,16 kB,NO USADO
+edificios,edificios_geom_gix,0,0,4864 kB,NO USADO
+edificios,edificios_pkey,0,0,2632 kB,NO USADO
+etl_log,etl_log_pkey,0,0,16 kB,NO USADO
+mv_grilla,mv_grilla_geom_gix,0,0,40 kB,NO USADO
+mv_grilla,mv_grilla_ij_idx,0,0,32 kB,NO USADO
+paraderos_osm,paraderos_osm_pkey,0,0,160 kB,NO USADO
+recorridos,recorridos_short_idx,0,0,32 kB,NO USADO
+recorridos_tramos,recorridos_tramos_pkey,0,0,744 kB,NO USADO
+rutas,rutas_pkey,0,0,32 kB,NO USADO
+viajes,viajes_pkey,0,0,936 kB,NO USADO
+recorridos,recorridos_route_idx,1,708,32 kB,
+viajes,viajes_route_idx,3,174,208 kB,
+stop_times,stop_times_trip_idx,6,549,36 MB,
+comunas_sub,comunas_sub_cut_idx,9,264,16 kB,
+stop_times,stop_times_stop_idx,10,10,7728 kB,
+viajes,viajes_shape_idx,10,10,216 kB,
+recorridos,recorridos_pkey,16,16,56 kB,
+comunas,comunas_pkey,19,396,16 kB,
+recorridos,recorridos_geom_gix,348,48267,40 kB,
+amenidades,amenidades_salud_gix,351,702,56 kB,
+paraderos_gtfs,paraderos_gtfs_pkey,559,361,168 kB,
+comunas_sub,comunas_sub_geom_gix,1563,2082,8192 bytes,
+edificios,edificios_pto_gix,2166,1033797,4808 kB,
+paraderos_gtfs,paraderos_gtfs_geom_gix,424822,757324,272 kB,
+paraderos_osm,paraderos_osm_geom_gix,429195,692186,264 kB,
+calles,calles_geom_gix,2858712,5008215,4184 kB,
+recorridos_tramos,recorridos_tramos_geom_gix,14402058,99525261,1392 kB,

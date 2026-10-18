@@ -1,0 +1,63 @@
+Sort  (cost=5531630252.82..5531630252.89 rows=29 width=196) (actual time=178543.613..178543.758 rows=9 loops=1)
+  Sort Key: (array_position('{motorway,trunk,primary,secondary,tertiary,unclassified,residential,living_street,service}'::text[], (regexp_replace(c.highway, '_link$'::text, ''::text))))
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=47948120
+  ->  WindowAgg  (cost=7402.40..5531630252.11 rows=29 width=196) (actual time=178543.514..178543.696 rows=9 loops=1)
+        Buffers: shared hit=47948117
+        ->  GroupAggregate  (cost=7402.40..5531630250.30 rows=29 width=89) (actual time=41989.777..178543.573 rows=9 loops=1)
+              Group Key: regexp_replace(c.highway, '_link$'::text, ''::text)
+              Buffers: shared hit=47948117
+              ->  Nested Loop  (cost=7402.40..1591126.61 rows=70033000 width=73) (actual time=656.104..2829.206 rows=960010 loops=1)
+                    Buffers: shared hit=2398
+                    ->  Gather Merge  (cost=7389.28..15370.98 rows=70033 width=133) (actual time=656.041..754.474 rows=70176 loops=1)
+                          Workers Planned: 1
+                          Workers Launched: 1
+                          Buffers: shared hit=2398
+                          ->  Sort  (cost=6389.27..6492.26 rows=41196 width=133) (actual time=430.016..434.314 rows=35088 loops=2)
+                                Sort Key: (regexp_replace(c.highway, '_link$'::text, ''::text))
+                                Sort Method: quicksort  Memory: 32kB
+                                Buffers: shared hit=2398
+                                Worker 0:  Sort Method: quicksort  Memory: 14841kB
+                                ->  Parallel Seq Scan on calles c  (cost=0.04..3231.55 rows=41196 width=133) (actual time=386.967..415.464 rows=35088 loops=2)
+                                      Filter: (highway = ANY ('{motorway,motorway_link,trunk,trunk_link,primary,primary_link,secondary,secondary_link,tertiary,tertiary_link,unclassified,residential,living_street,service}'::text[]))
+                                      Rows Removed by Filter: 15374
+                                      Buffers: shared hit=2341
+                    ->  Function Scan on st_dumpsegments d  (cost=13.12..23.12 rows=1000 width=32) (actual time=0.010..0.012 rows=14 loops=70176)
+              SubPlan 1
+                ->  Index Scan using recorridos_tramos_geom_gix on recorridos_tramos t  (cost=1.03..44.86 rows=3 width=0) (actual time=0.036..0.036 rows=0 loops=960010)
+                      Index Cond: (geom && st_expand(st_lineinterpolatepoint(d.geom, '0.5'::double precision), '15'::double precision))
+                      Filter: ((route_type = 3) AND st_dwithin(geom, st_lineinterpolatepoint(d.geom, '0.5'::double precision), '15'::double precision))
+                      Rows Removed by Filter: 7
+                      Buffers: shared hit=9589163
+              SubPlan 2
+                ->  Index Scan using recorridos_tramos_geom_gix on recorridos_tramos t_1  (cost=1.03..44.86 rows=3 width=0) (actual time=0.035..0.035 rows=0 loops=960010)
+                      Index Cond: (geom && st_expand(st_lineinterpolatepoint(d.geom, '0.5'::double precision), '15'::double precision))
+                      Filter: ((route_type = 3) AND st_dwithin(geom, st_lineinterpolatepoint(d.geom, '0.5'::double precision), '15'::double precision))
+                      Rows Removed by Filter: 7
+                      Buffers: shared hit=9589139
+              SubPlan 3
+                ->  Index Scan using recorridos_tramos_geom_gix on recorridos_tramos t_2  (cost=1.03..44.86 rows=3 width=0) (actual time=0.035..0.035 rows=0 loops=960010)
+                      Index Cond: (geom && st_expand(st_lineinterpolatepoint(d.geom, '0.5'::double precision), '15'::double precision))
+                      Filter: ((route_type = 3) AND st_dwithin(geom, st_lineinterpolatepoint(d.geom, '0.5'::double precision), '15'::double precision))
+                      Rows Removed by Filter: 7
+                      Buffers: shared hit=9589139
+              SubPlan 4
+                ->  Index Scan using recorridos_tramos_geom_gix on recorridos_tramos t_3  (cost=1.03..44.86 rows=3 width=0) (actual time=0.035..0.035 rows=0 loops=960010)
+                      Index Cond: (geom && st_expand(st_lineinterpolatepoint(d.geom, '0.5'::double precision), '15'::double precision))
+                      Filter: ((route_type = 3) AND st_dwithin(geom, st_lineinterpolatepoint(d.geom, '0.5'::double precision), '15'::double precision))
+                      Rows Removed by Filter: 7
+                      Buffers: shared hit=9589139
+              SubPlan 5
+                ->  Index Scan using recorridos_tramos_geom_gix on recorridos_tramos t_4  (cost=1.03..44.86 rows=3 width=0) (actual time=0.035..0.035 rows=0 loops=960010)
+                      Index Cond: (geom && st_expand(st_lineinterpolatepoint(d.geom, '0.5'::double precision), '15'::double precision))
+                      Filter: ((route_type = 3) AND st_dwithin(geom, st_lineinterpolatepoint(d.geom, '0.5'::double precision), '15'::double precision))
+                      Rows Removed by Filter: 7
+                      Buffers: shared hit=9589139
+Planning:
+  Buffers: shared hit=369
+Planning Time: 10.516 ms
+JIT:
+  Functions: 54
+  Options: Inlining true, Optimization true, Expressions true, Deforming true
+  Timing: Generation 4.751 ms, Inlining 142.055 ms, Optimization 366.889 ms, Emission 264.957 ms, Total 778.652 ms
+Execution Time: 178566.117 ms

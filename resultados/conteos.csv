@@ -1,0 +1,14 @@
+tabla,filas,geometria,tamano,indices
+amenidades,20989,POINT 5361,3728 kB,"amenidades_amenity_idx (btree), amenidades_geom_gix (gist), amenidades_pkey (btree), amenidades_salud_gix (gist)"
+caja,1,POLYGON 5361,48 kB,—
+calles,100925,MULTILINESTRING 5361,25 MB,"calles_geom_gix (gist), calles_highway_idx (btree), calles_pkey (btree)"
+comunas,30,MULTIPOLYGON 5361,672 kB,"comunas_geom_gix (gist), comunas_pkey (btree)"
+comunas_sub,86,POLYGON 5361,320 kB,"comunas_sub_cut_idx (btree), comunas_sub_geom_gix (gist), comunas_sub_pkey (btree)"
+edificios,118950,MULTIPOLYGON 5361,67 MB,"edificios_geom_gix (gist), edificios_pkey (btree), edificios_pto_gix (gist)"
+paraderos_gtfs,6812,POINT 5361,1424 kB,"paraderos_gtfs_geom_gix (gist), paraderos_gtfs_pkey (btree)"
+paraderos_osm,6572,POINT 5361,1216 kB,"paraderos_osm_geom_gix (gist), paraderos_osm_pkey (btree)"
+recorridos,708,LINESTRING 5361,12 MB,"recorridos_geom_gix (gist), recorridos_pkey (btree), recorridos_route_idx (btree), recorridos_short_idx (btree)"
+recorridos_tramos,33286,LINESTRING 5361,11 MB,"recorridos_tramos_geom_gix (gist), recorridos_tramos_pkey (btree)"
+rutas,428,—,104 kB,rutas_pkey (btree)
+stop_times,1098529,—,118 MB,"stop_times_stop_idx (btree), stop_times_trip_idx (btree)"
+viajes,26159,—,3488 kB,"viajes_pkey (btree), viajes_route_idx (btree), viajes_shape_idx (btree)"

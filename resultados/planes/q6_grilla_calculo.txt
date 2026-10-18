@@ -1,0 +1,72 @@
+Nested Loop Left Join  (cost=12735.57..12750.07 rows=1 width=120) (actual time=457.575..4668.145 rows=636 loops=1)
+  Join Filter: ((h.i = h_3.i) AND (h.j = h_3.j))
+  Rows Removed by Join Filter: 201402
+  Buffers: shared hit=161333
+  CTE hex
+    ->  Nested Loop  (cost=0.62..12511.65 rows=1 width=40) (actual time=0.611..2.726 rows=636 loops=1)
+          Buffers: shared hit=1
+          ->  Seq Scan on caja k_1  (cost=0.00..1.01 rows=1 width=6360) (actual time=0.001..0.003 rows=1 loops=1)
+                Buffers: shared hit=1
+          ->  Function Scan on st_hexagongrid h_4  (cost=0.62..12510.62 rows=1 width=40) (actual time=0.609..2.564 rows=636 loops=1)
+                Filter: st_intersects(geom, k_1.geom)
+                Rows Removed by Filter: 46
+  ->  Nested Loop Left Join  (cost=58.11..59.78 rows=1 width=6424) (actual time=237.039..4333.324 rows=636 loops=1)
+        Join Filter: ((h.i = h_2.i) AND (h.j = h_2.j))
+        Rows Removed by Join Filter: 198444
+        Buffers: shared hit=63002
+        ->  Nested Loop Left Join  (cost=43.11..44.68 rows=1 width=6416) (actual time=214.977..3913.771 rows=636 loops=1)
+              Join Filter: ((h.i = h_1.i) AND (h.j = h_1.j))
+              Rows Removed by Join Filter: 200219
+              Buffers: shared hit=54739
+              ->  Nested Loop  (cost=0.00..1.04 rows=1 width=6400) (actual time=0.622..1.587 rows=636 loops=1)
+                    Buffers: shared hit=2
+                    ->  Seq Scan on caja k  (cost=0.00..1.01 rows=1 width=6360) (actual time=0.008..0.010 rows=1 loops=1)
+                          Buffers: shared hit=1
+                    ->  CTE Scan on hex h  (cost=0.00..0.02 rows=1 width=40) (actual time=0.613..1.226 rows=636 loops=1)
+                          Buffers: shared hit=1
+              ->  GroupAggregate  (cost=43.11..43.62 rows=1 width=24) (actual time=0.364..6.132 rows=316 loops=636)
+                    Group Key: h_1.i, h_1.j
+                    Buffers: shared hit=54737
+                    ->  Sort  (cost=43.11..43.19 rows=33 width=16) (actual time=0.337..1.509 rows=22290 loops=636)
+                          Sort Key: h_1.i, h_1.j, t.route_id
+                          Sort Method: quicksort  Memory: 3155kB
+                          Buffers: shared hit=54737
+                          ->  Nested Loop  (cost=0.28..42.28 rows=33 width=16) (actual time=0.262..188.122 rows=39874 loops=1)
+                                Buffers: shared hit=54731
+                                ->  CTE Scan on hex h_1  (cost=0.00..0.02 rows=1 width=40) (actual time=0.003..2.729 rows=636 loops=1)
+                                ->  Index Scan using recorridos_tramos_geom_gix on recorridos_tramos t  (cost=0.28..42.23 rows=3 width=227) (actual time=0.057..0.283 rows=63 loops=636)
+                                      Index Cond: (geom && h_1.geom)
+                                      Filter: st_intersects(h_1.geom, geom)
+                                      Rows Removed by Filter: 24
+                                      Buffers: shared hit=54731
+        ->  GroupAggregate  (cost=14.99..15.07 rows=1 width=16) (actual time=0.034..0.642 rows=313 loops=636)
+              Group Key: h_2.i, h_2.j
+              Buffers: shared hit=8263
+              ->  Sort  (cost=14.99..15.01 rows=7 width=8) (actual time=0.033..0.223 rows=3907 loops=636)
+                    Sort Key: h_2.i, h_2.j
+                    Sort Method: quicksort  Memory: 398kB
+                    Buffers: shared hit=8263
+                    ->  Nested Loop  (cost=0.15..14.90 rows=7 width=8) (actual time=0.190..19.670 rows=6569 loops=1)
+                          Buffers: shared hit=8263
+                          ->  CTE Scan on hex h_2  (cost=0.00..0.02 rows=1 width=40) (actual time=0.001..0.133 rows=636 loops=1)
+                          ->  Index Scan using paraderos_gtfs_geom_gix on paraderos_gtfs p  (cost=0.15..14.87 rows=1 width=32) (actual time=0.014..0.029 rows=10 loops=636)
+                                Index Cond: (geom && h_2.geom)
+                                Filter: (es_bus AND st_intersects(h_2.geom, geom))
+                                Rows Removed by Filter: 4
+                                Buffers: shared hit=8263
+  ->  HashAggregate  (cost=165.82..165.83 rows=1 width=16) (actual time=0.347..0.391 rows=318 loops=636)
+        Group Key: h_3.i, h_3.j
+        Batches: 1  Memory Usage: 129kB
+        Buffers: shared hit=98331
+        ->  Nested Loop  (cost=0.28..164.93 rows=119 width=8) (actual time=0.181..197.850 rows=118950 loops=1)
+              Buffers: shared hit=98331
+              ->  CTE Scan on hex h_3  (cost=0.00..0.02 rows=1 width=40) (actual time=0.001..0.178 rows=636 loops=1)
+              ->  Index Scan using edificios_pto_gix on edificios e  (cost=0.28..164.79 rows=12 width=32) (actual time=0.028..0.292 rows=187 loops=636)
+                    Index Cond: (pto && h_3.geom)
+                    Filter: st_intersects(h_3.geom, pto)
+                    Rows Removed by Filter: 63
+                    Buffers: shared hit=98331
+Planning:
+  Buffers: shared hit=367
+Planning Time: 2.047 ms
+Execution Time: 4669.230 ms
