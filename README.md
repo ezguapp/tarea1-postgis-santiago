@@ -2,7 +2,7 @@
 
 Procesamiento Masivo de Datos · ELE051-B / EIN102B · USM 2026-2 · Paralelo 701
 
-**Integrantes:** NOMBRE 1 · NOMBRE 2 · NOMBRE 3
+**Integrantes:** Martin Valenzuela · Diego Leiton · Matias Millan
 
 Pipeline geoespacial reproducible que cruza **OpenStreetMap** (ciudad construida) con el **GTFS de la red de
 transporte público** (DTPM) y las **comunas oficiales (DPA 2023)** en PostGIS, para responder:
@@ -202,7 +202,12 @@ El informe se arma en `informe/informe.html` → abrir en Chrome → Imprimir �
 
 ## 6. Qué no funcionó / límites conocidos
 
-- COMPLETAR con lo que les haya pasado en la corrida real (errores, tiempos largos, cambios de fuente).
+- Durante la ejecución del proyecto, el computador presentó un rendimiento lento y un uso elevado de recursos al ejecutar los comandos, especialmente durante la descarga de los datos geográficos y la construcción de la imagen de Docker. Esto provocó demoras en la ejecución de algunas tareas.
+
+Además, hubo dificultades para iniciar Docker y construir correctamente la imagen del proyecto debido a errores durante la instalación de dependencias y problemas con los repositorios de paquetes de Debian. Fue necesario revisar y modificar la configuración del Dockerfile para intentar solucionar estos inconvenientes.
+
+Estas dificultades retrasaron el desarrollo y la ejecución del proyecto, por lo que fue necesario realizar varias pruebas y ajustes hasta intentar conseguir un entorno de trabajo funcional.
+
 - Distancias euclidianas (no por red vial): son una cota inferior del acceso real.
 - Efecto borde: lo que está justo fuera de la caja no se cargó. Se cuantifica en P2 (columna «núcleo») y la P6
   ordena solo celdas completamente dentro de la caja.
