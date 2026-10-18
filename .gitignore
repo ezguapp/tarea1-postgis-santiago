@@ -1,0 +1,20 @@
+# --- Datos fuente: NO se versionan (descuento -10). Se descargan según el README.
+data/*
+!data/LEEME.md
+*.osm.pbf
+*.pbf
+*.zip
+*.gpkg
+# ...excepto el GeoPackage EXPORTADO con las capas de los mapas (lo exige la Parte D)
+!salidas/mapas_tarea1.gpkg
+comunas_cl.sql
+
+# --- Varios
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.DS_Store
+Thumbs.db
+*.gpkg-journal
+*.gpkg-wal
+*.gpkg-shm

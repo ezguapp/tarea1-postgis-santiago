@@ -1,0 +1,55 @@
+# Tarea 1 — PostGIS de punta a punta (Santiago centro)
+# Levanta PostGIS 16-3.4 con GDAL/ogr2ogr, osmium, unzip y matplotlib dentro del
+# mismo contenedor, para que la carga y los mapas no dependan de nada instalado en
+# la máquina anfitriona.
+#
+#   docker compose up -d      # construye la imagen la primera vez (~3-5 min)
+#   ./cargar.sh               # deja todas las tablas creadas, indexadas y con ANALYZE
+#   ./consultas.sh            # corre las 7 preguntas, planes, mapas e informe
+
+services:
+  db:
+    build:
+      context: ./docker
+    image: tarea1-postgis:16-3.4
+    container_name: tarea1_postgis
+    environment:
+      POSTGRES_DB: tarea1
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      # Variables que leen psql / ogr2ogr al ejecutar los scripts dentro del contenedor
+      PGHOST: localhost
+      PGPORT: "5432"
+      PGUSER: postgres
+      PGPASSWORD: postgres
+      PGDATABASE: tarea1
+      DATA_DIR: /datos
+      PROYECTO_DIR: /proyecto
+    ports:
+      # 5433 en el anfitrión para no chocar con el PostGIS del Lab 05 (5432)
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data   # volumen con nombre: la base sobrevive a "down"
+      - ./data:/datos:ro                  # datos fuente (NO versionados), solo lectura
+      - ./:/proyecto                      # scripts, consultas y salidas del repositorio
+    shm_size: 1g
+    command: >
+      postgres
+      -c shared_buffers=512MB
+      -c work_mem=64MB
+      -c maintenance_work_mem=512MB
+      -c max_wal_size=4GB
+      -c checkpoint_timeout=15min
+      -c max_parallel_workers_per_gather=2
+      -c random_page_cost=1.1
+      -c track_io_timing=on
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d tarea1"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+    name: tarea1_pgdata

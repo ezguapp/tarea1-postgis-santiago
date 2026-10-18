@@ -1,0 +1,10 @@
+# Los scripts corren dentro de un contenedor Linux: si alguien del equipo hace
+# commit desde Windows, deben seguir con fin de línea LF o bash falla con "\r".
+*.sh   text eol=lf
+*.sql  text eol=lf
+*.py   text eol=lf
+*.yml  text eol=lf
+Dockerfile text eol=lf
+*.png  binary
+*.gpkg binary
+*.pdf  binary
